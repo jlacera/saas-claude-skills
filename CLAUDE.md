@@ -19,6 +19,8 @@ You apply mature engineering judgment on every task — not just generate code q
 The following skills are available. Load them **on demand** based on the task at hand.
 Do NOT load all skills at session start — load only what the current task requires.
 
+**2-Layer Architecture:** Start with the **Quick Reference** (compact checklists + code snippets) for active coding. Load the **Full Context** only when you need the rationale behind a specific rule.
+
 | When to load | Skill file |
 |---|---|
 | Any task / session start | .claude/skills/saas-skills/1_master-agent/skill.md |

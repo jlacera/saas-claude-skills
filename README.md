@@ -20,7 +20,7 @@ The core insight is simple: **a Lazy-Loading skill architecture** means your AI 
 
 ## 📦 What's Inside
 
-This repository contains **6 Claude Code skills** organized as a progressive engineering framework — from agent orchestration philosophy to growth tactics.
+This repository contains **6 Claude Code skills** with a **2-layer architecture** organized as a progressive engineering framework — from agent orchestration philosophy to growth tactics.
 
 | # | Skill | Domain | Summary |
 |---|-------|--------|---------|

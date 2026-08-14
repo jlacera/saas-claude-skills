@@ -56,33 +56,16 @@ El repositorio almacena únicamente el código fuente de producción. Para evita
 
 ---
 
-## SECCIÓN III: LA DEFINICIÓN DE TERMINADO (DoD) UNIVERSAL (14 PUNTOS INNEGOCIABLES)
-
-Cualquier Pull Request que pretenda marcar un módulo o funcionalidad como **TERMINADO** debe cumplir satisfactoriamente, sin excepciones, estos 14 puntos de control, los cuales deben incluirse como checklist explícito en la plantilla de PR:
-
-### Contrato y Diseño
-1.  **[ ] Contrato Público Explícito:** Existe un archivo `index.ts` en la raíz del módulo que actúa como barrera de entrada, exportando únicamente los métodos e interfaces permitidos. Ningún archivo interno del módulo debe ser importado de forma directa por componentes externos.
-2.  **[ ] Doble Publicado (Mock/Stub):** El módulo expone un doble oficial, mock o servidor de pruebas autocontenido para que sus consumidores puedan testearse de forma asíncrona y desacoplada.
-3.  **[ ] Contexto Documentado (`context.md`):** Se ha redactado un archivo markdown local que describe el propósito del módulo, sus dependencias, datos que posee, eventos emitidos/consumidos y decisiones de diseño con descarte de alternativas.
-
-### Corrección y Calidad de Pruebas
-4.  **[ ] Cobertura de Test de Dominio ≥ 80%:** Las pruebas unitarias se enfocan estrictamente en la lógica de negocio y las reglas de dominio, no en simples constructores, getters o componentes de presentación de UI.
-5.  **[ ] Test de Rutas de Fallo:** Se diseñan y ejecutan pruebas unitarias explícitas para escenarios no felices (entradas malformadas, timeouts de red, dependencias caídas, concurrencia masiva y valores nulos/vacíos).
-6.  **[ ] Tests de Contrato de Eventos:** Si el módulo emite eventos en un bus de mensajería, existe un test automatizado que valida la estructura exacta de cada evento emitido para evitar regresiones de tipado.
-7.  **[ ] Entorno de Pruebas Aislado (Scratch DB):** Todos los tests automáticos corren contra una base de datos semilla efímera e independiente (Scratch DB) que se inicializa y desecha tras la ejecución. Jamás se prueban datos contra bases compartidas de desarrollo o staging.
-
-### Seguridad y Aislamiento
-8.  **[ ] Test de Aislamiento Cross-Tenant Específico:** Si el módulo lee, escribe o interactúa con base de datos, caché, almacenamiento S3 o colas de tareas, cuenta con un test automatizado en el pipeline de CI que intenta realizar una intrusión desde otro tenant y valida el rechazo inmediato de la transacción.
-9.  **[ ] Autorización Verificada en Servidor:** Las variables críticas de identidad (`tenantId`, `userId`) se extraen exclusivamente del token de sesión verificado criptográficamente en el servidor, nunca de los parámetros de la URL, headers del cliente o cuerpos de peticiones HTTP.
-10. **[ ] Sanitización de Logs y Respuestas Públicas:** El controlador del manejador de errores enmascara activamente credenciales, tokens, contraseñas, secretos, stack traces detallados de base de datos y datos personales (PII) en toda respuesta HTTP pública y logs generales.
-
-### Operaciones y Despliegue
-11. **[ ] Observabilidad Conectada:** El módulo emite logs estructurados en JSON que incorporan metadatos de correlación (`tenantId`, `correlationId`, `userId`, `latency_ms`). Las excepciones no controladas se instrumentan automáticamente hacia Sentry con contexto de diagnóstico rico.
-12. **[ ] Coste por Función Instrumentado:** Si el módulo realiza llamadas externas a APIs de pago o modelos de IA, se calcula e instrumenta el coste unitario promedio por invocación. Si no se puede responder con precisión de centavos cuánto cuesta ejecutar esta función por usuario, el módulo no está terminado.
-13. **[ ] Despliegue Seguro en Staging:** La funcionalidad está desplegada en el entorno de staging integrado con el resto del sistema, oculta detrás de un Feature Flag inactivo para producción si aún no debe ser visible para usuarios finales.
-14. **[ ] Cierre de Fila en la Matriz de Trazabilidad:** La fila del hito correspondiente en la matriz del proyecto está marcada como "Terminado", con enlaces al PR final y al ID del test automatizado que demuestra el cumplimiento.
-
 ---
+
+## SECCIÓN III: LA DEFINICIÓN DE TERMINADO (DoD) UNIVERSAL
+
+> 📎 **Skill dedicada:** Para el checklist completo de 14 puntos y los requisitos adicionales por tipo de módulo, consultar:
+> - Contexto completo: `2_definition-of-done/skill.md`
+> - Referencia rápida: `2_definition-of-done/quick-ref.md`
+
+Cualquier PR que pretenda marcar un módulo como **TERMINADO** debe satisfacer los 14 puntos del DoD Universal sin excepciones: contrato público, mocks, context.md, cobertura ≥80%, tests de fallo, aislamiento cross-tenant, autorización en servidor, sanitización de logs, observabilidad, coste instrumentado, despliegue en staging y cierre de trazabilidad.
+
 
 ## SECCIÓN IV: CARRILES DE RIESGO Y REQUISITOS ESPECIALIZADOS
 
@@ -122,110 +105,50 @@ Estos requisitos se suman de forma mandatoria al DoD universal:
 
 ---
 
+---
+
 ## SECCIÓN V: EL ESCUDO DE SEGURIDAD SAAS AVANZADA (OWASP DUAL)
 
-### 1. Los Tres Mandamientos Fundacionales de la Base de Datos
-*   **Mandamiento 1 (SSRF en Scraping):** Si la aplicación permite a los usuarios ingresar URLs externas para raspar, auditar o indexar, el backend debe implementar filtros de red que bloqueen activamente peticiones salientes dirigidas a IPs privadas, locales o de metadatos de la nube (`127.0.0.1`, `10.0.0.0/8`, `169.254.169.254`).
-*   **Mandamiento 2 (Evitar el Bypass de RLS en Caché):** La base de datos puede tener políticas Row-Level Security (RLS) perfectas. Sin embargo, la capa de caché de Redis se sitúa *delante* de la BD y no conoce estas reglas de forma nativa. 
-    *   *Directiva Obligatoria:* Toda clave de Redis para aplicaciones multi-tenant debe incorporar explícitamente el ID del inquilino como prefijo de namespacing canónico: `tenant:${tenant_id}:user:${user_id}:profile`.
-    *   *Parches de Infraestructura:* Se configurarán accesos por ACLs en Redis 6.0+ y se auditarán mitigaciones estrictas contra vulnerabilidades como **CVE-2026-23479** para prevenir ejecuciones arbitrarias en clústeres compartidos.
-*   **Mandamiento 3 (Seguridad en Vistas de Base de Datos):** Al crear vistas lógicas en Supabase/PostgreSQL, se debe declarar explícitamente la directiva `WITH (security_invoker = true)` para garantizar que la vista herede y respete las políticas de RLS de las tablas base subyacentes, evitando accesos públicos anónimos.
+> 📎 **Skill dedicada:** Para el marco OWASP dual completo, la matriz de aislamiento multi-tenant, cumplimiento EU AI Act y el protocolo StampHog:
+> - Contexto completo: `3_seguridad-saas/skill.md`
+> - Referencia rápida: `3_seguridad-saas/quick-ref.md`
 
-### 2. Prevención de Slopsquatting (Alucinaciones en Dependencias)
-Los modelos de IA tienden a alucinar nombres de librerías y paquetes de software inexistentes pero creíbles. Los atacantes rastrean estas alucinaciones de forma automatizada y registran dichos nombres en repositorios públicos de npm o PyPI para inyectar código malicioso (*slopsquatting*).
-*   **Directiva de Instalación:** Queda terminantemente prohibido ejecutar `npm install` o `pip install` de paquetes sugeridos por un modelo de IA sin verificar previamente que la librería existe en el registro oficial, cuenta con historial activo de mantenimiento y posee una licencia comercial compatible.
-*   **Fijado de SBOM:** Todo paquete nuevo debe fijarse con versión exacta y hash de integridad SHA-256 en el lockfile del repositorio.
+### Resumen de Directivas Críticas
+*   **SSRF:** Bloquear peticiones salientes a IPs privadas, locales y metadatos cloud (`127.0.0.1`, `10.0.0.0/8`, `169.254.169.254`).
+*   **Bypass de RLS en Caché:** Toda clave de Redis debe incluir el prefijo `tenant:{tenant_id}:` para evitar fugas cross-tenant.
+*   **Vistas de BD:** Declarar `WITH (security_invoker = true)` en toda vista lógica.
+*   **Slopsquatting:** Verificar que toda dependencia sugerida por IA exista en el registro oficial con mantenimiento activo antes de instalar. Fijar versión exacta + SHA-256 en lockfile.
 
 ---
 
 ## SECCIÓN VI: ESTÁNDARES DE DESPLIEGUE, OPERACIONES E INSTRUMENTACIÓN FINANCIERA
 
-### 1. El Gate de las 13 Capas de Preparación para Producción
-Antes de autorizar el paso a producción de cualquier proyecto o funcionalidad de este repositorio, el sistema debe someterse a la auditoría del **Gate de las 13 Capas**. Ningún despliegue avanzará si un solo ítem se encuentra evaluado en **ROJO**:
+> 📎 **Skills dedicadas:** Para las reglas completas de despliegue, operaciones y control financiero:
+> - Despliegue y Ops: `4_ops-deploy/skill.md` | `4_ops-deploy/quick-ref.md`
+> - Billing y Monetización: `5_billing-monetizacion/skill.md` | `5_billing-monetizacion/quick-ref.md`
 
-| # | Capa | Qué se verifica |
-| - | ---- | --------------- |
-| **1** | **Frontend** | Manejo de estados de carga, manejo elegante de errores visuales y responsive a 360px. |
-| **2** | **APIs** | Validación estructurada de esquemas (Zod) en la frontera del backend, timeouts de red y tipos estrictos. |
-| **3** | **Base de Datos** | Índices creados en columnas de búsqueda y claves foráneas, pools de conexión (PgBouncer en puerto 6543) en modo transacción y migraciones append-only. |
-| **4** | **Auth** | Manejo de tokens y cookies de sesión bajo directivas HttpOnly, expiración segura de enlaces y revocación de sesiones. |
-| **5** | **Hosting** | Certificados SSL/TLS auto-renovables y aislamiento riguroso de entornos (Staging vs. Producción). |
-| **6** | **Cloud** | Roles de IAM bajo principio de menor privilegio y presupuestos de alertas de costes activos. |
-| **7** | **CI/CD** | Pipelines con ejecución obligatoria de linters, compilación local, tipado estático estricto y pruebas unitarias/e2e automáticas. |
-| **8** | **Security** | CORS restrictivo, cabeceras HTTP de seguridad (CSP, HSTS) habilitadas, y escaneo de vulnerabilidades en dependencias en cada build. |
-| **9** | **Rate Limiting** | Límites de tasa activos por IP y por usuario autenticado en todo endpoint de autenticación y funciones que invoquen modelos de IA. |
-| **10** | **Caching** | Claves de caché scoped por ID de tenant e inquilino, acompañadas de TTLs explícitos y controlados. |
-| **11** | **Load Balancing** | Capacidad de balanceo y failover automático ante caídas de región. |
-| **12** | **Error Tracking** | Captura privada de stack traces (Sentry) con higienización de respuestas públicas expuestas. |
-| **13** | **Disponibilidad** | Comprobación sintética de salud (health checks) activa y backups automáticos probados con restauración de simulacro (*Restore Drill*). |
-
-*Prioridad de Remediación ante un fallo (RED):* 
-1. Lo que hace perder dinero (cobros, facturación serverless).
-2. Lo que compromete, filtra o expone datos privados.
-3. Lo que genera exposición legal e incumplimiento regulatorio.
-
-### 2. Escalabilidad Híbrida: Cuándo migrar de Serverless a Contenedores
-El cómputo Serverless posee límites de tiempo de ejecución estrictos (ej. 10s-30s en Vercel/Lambda). El agente migrará de inmediato funcionalidades pesadas hacia una arquitectura de **Workers Containerizados en Docker** que procesen mediante colas de mensajería (Redis/SQS) bajo el patrón: `API Serverless Ligera` $\rightarrow$ `Cola de Mensajes (Redis)` $\rightarrow$ `Worker Docker (Usuario No-Root)`.
-*Criterio Canónico de Escalada:*
-*   Procesamiento pesado con tiempos de ejecución superiores a 30 segundos (ej. embeddings en lote, PDFs complejos, transcripción de audio/video con IA).
-*   Conexiones persistentes de red (WebSockets, streaming de datos bidireccional continuo).
-*   Tareas automatizadas programadas (*cron jobs*) de alta intensidad.
-
-### 3. El Sello Final: Smoke Test en Vivo y Rollback en <60 segundos
-*   **Smoke Test Obligatorio:** Tras cada despliegue exitoso en producción, el agente o el ingeniero de guardia debe abrir una ventana de incógnito en el navegador y ejecutar manualmente en vivo:
-    1. Registro de cuenta real con correo de prueba.
-    2. Validación de llegada de correo electrónico y funcionalidad de su link.
-    3. Inicio de sesión y recorrido del flujo core del software (crear, editar, eliminar).
-    4. Si hay cobros: pago de importe mínimo con tarjeta real y verificación de que el webhook asíncrono desbloquea las funciones.
-    5. Logout, re-login y verificación de persistencia de estado.
-*   **Rollback Inmediato en <60s:** El camino de rollback debe estar documentado y probado con la misma frecuencia que el despliegue de software:
-    *   *Vercel/Netlify:* Panel de Deployments $\rightarrow$ Seleccionar el deploy funcional previo $\rightarrow$ "Promote to Production".
-    *   *Railway/Render:* Ejecutar `git revert <commit-id>` en local y empujar directo por CI.
-
-### 4. Control Financiero y la Sostenibilidad de la IA
-*   **Spend Caps Duros:** Configurar límites mensuales de facturación inflexibles en los proveedores cloud. No bastan las alertas por correo; un bucle infinito en un agente en producción puede gastar miles de dólares en una madrugada.
-*   **Alerta de $0.10 por Invocación:** Instrumentar obligatoriamente (con OpenTelemetry/Helicone/Langfuse) el consumo de tokens y llamadas a APIs de IA de cada función. El sistema disparará una alerta de infraestructura si cualquier invocación individual de cara al usuario supera los **$0.10 USD**.
-*   **Análisis del Margen de CPU:** Mensualmente, se restará el Costo de Procesamiento Unitario (CPU: tokens, APIs, almacenamiento por usuario) del Ingreso Promedio por Usuario (ARPU) para marcar de forma inmediata cualquier pricing tier que sufra pérdidas por el uso de usuarios intensivos (*power users*).
-
-### 5. El Proceso "Conveyor Belt" para Shadow Software
-El personal no técnico de la organización utilizará asistentes de IA para crear prototipos rápidos y automatizaciones locales. En lugar de prohibir estas prácticas (lo que destruye la productividad), el agente de código actuará como el canalizador del proceso **Conveyor Belt**: tomará estas herramientas, auditará sus riesgos, las adaptará bajo las 13 capas de ingeniería para producción, las blindará con variables de entorno limpias y aislamiento cross-tenant, y las desplegará de forma robusta e integrada en el flujo corporativo.
+### Resumen de Directivas Críticas
+*   **Gate de 13 Capas:** Ningún despliegue avanza a producción si un solo ítem se encuentra en ROJO.
+*   **Escalabilidad Híbrida:** Migrar de Serverless a Workers Docker + Cola de Mensajes cuando el tiempo de ejecución supere 30s, se necesiten conexiones persistentes, o se ejecuten cron jobs intensivos.
+*   **Smoke Test Post-Deploy:** 5 pasos obligatorios en ventana de incógnito.
+*   **Rollback en <60s:** El camino de rollback debe estar documentado y probado.
+*   **Spend Caps Duros:** Límites mensuales inflexibles en proveedores cloud. Alerta si invocación supera $0.10 USD.
+*   **Firma Criptográfica de Webhooks:** Activación de cuenta solo tras verificación criptográfica del webhook.
 
 ---
 
 ## SECCIÓN VII: CRECIMIENTO Y MONETIZACIÓN IA-NATIVE
 
-### 1. GEO/AIO (Generative Engine Optimization)
-En 2026, el tráfico de compras e investigación proviene de agentes y motores sintéticos de búsqueda. Si tu SaaS no es visible para ellos, no existe.
-*   **El "Agentic 6" en JSON-LD (SSR):** El servidor debe renderizar estáticamente en el código HTML de salida (sin depender de inyección tardía de JavaScript de cliente) los metadatos estructurados de Schema.org para los agentes de compra IA:
-    1. `Product`: Entidad del producto con SKU e identificador único de catálogo.
-    2. `Offer`: Precio oficial, moneda aceptada y estado de inventario usando URIs oficiales (`https://schema.org/InStock`).
-    3. `AggregateRating` & `Review`: Puntuación agregada verificada.
-    4. `FAQPage`: Bloques directos de pregunta y respuesta estructurados semánticamente.
-    5. `ReturnPolicy`: Políticas de garantía y devolución claras.
-*   **Endpoint de Especificación IA (`/api/ai-spec.json`):** Toda aplicación de este repositorio expondrá de forma pública un archivo JSON legible por máquinas que describirá detalladamente sus capacidades de integración, esquemas de precios, certificaciones de seguridad, estándares de cumplimiento de datos y opciones de exportación, facilitando su indexación automática por agentes de compras autónomos.
+> 📎 **Skill dedicada:** Para las reglas completas de adquisición, GEO y automatización de canales Meta:
+> - Contexto completo: `6_crecimiento-growth/skill.md`
+> - Referencia rápida: `6_crecimiento-growth/quick-ref.md`
 
-### 2. La Doctrina "The Forge" para el Primer Cliente
-*   **Venta del Outcome, No de la Tecnología:** En la captación de clientes de pymes o B2B, el agente evitará la terminología técnica abstracta de IA. Se venderán **horas devueltas a la operación** y el **cierre de fugas de dinero**.
-*   **El Vídeo Demo de 3 Minutos:** No se solicitarán reuniones largas de 45 minutos. El embudo de ventas frío enviará un vídeo grabado en pantalla de 3 minutos de duración (Loom/Tella) que mostrará el producto resolviendo un problema específico del prospecto en tiempo real, ofreciendo un enlace funcional de un solo clic sin fricciones de instalación ni registros complejos.
-
-### 3. Mitigación de Baneos de Canales Meta
-Al automatizar canales conversacionales de alta velocidad, se implementarán de forma estricta las siguientes directrices de resiliencia:
-*   **WhatsApp (La API Oficial Obligatoria):** Queda terminantemente prohibido utilizar herramientas informales basadas en escaneo de códigos QR o ingeniería inversa de WhatsApp Web. Meta los persigue activamente con modelos anti-spam y banea de forma permanente los números sin derecho a recuperación. Se utilizará exclusivamente la API Oficial de WhatsApp Business mediante números aprobados.
-*   **Instagram (Las 7 Reglas Anti-Spam para Comentarios):**
-    1. Límite máximo e innegociable de 3 respuestas por ejecución (máximo 36 respuestas por hora).
-    2. Pausa aleatoria de 20 a 40 segundos entre comentarios para simular interacción humana y eliminar patrones de ráfaga.
-    3. Mensajes redactados de forma única por un LLM económico de alta velocidad, prohibiendo plantillas estáticas idénticas.
-    4. Registro de IDs de comentarios en base de datos para garantizar cero duplicados.
-    5. Freno inmediato del workflow ante errores 429 de la API de Meta, pausando la ejecución por 5 minutos antes de reintentar.
-    6. Exclusión estricta de comentarios del propio perfil e ignorancia de palabras claves transaccionales de DM.
-    7. Cero enlaces o hashtags en comentarios públicos masivos; la redirección se realiza de forma privada mediante Mensajes Directos (DMs) controlados.
-
-### 4. Mitigación del Involuntary Churn y Retención
-*   **Stripe Smart Retries & Dunning:** Se activará la lógica de reintentos inteligente de Stripe para procesar cobros fallidos en los mejores horarios bancarios emisores. Se configurarán secuencias automáticas de alerta de expiración de tarjetas de crédito 14 días antes del vencimiento.
-*   **Período de Gracia (Grace Period):** El sistema aplicará una ventana de gracia de 7 días ante un pago fallido donde se limitará el acceso de forma parcial, evitando la eliminación automática e inmediata de los datos del cliente.
-*   **Prevención del Abandono por Timeouts (UX de Sesión Inteligente):** El sistema evitará cerrar la sesión por inactividad estática si detecta actividad significativa como foco sostenido en componentes de lectura o redacción intensiva. El sistema mostrará un modal preventivo 60 segundos antes del timeout y, en caso de re-autenticación obligatoria, **preservará el estado completo del formulario** almacenando un snapshot cifrado temporal en el navegador, redirigiendo al usuario exactamente a su flujo interrumpido para evitar la deserción de compra.
-
----
+### Resumen de Directivas Críticas
+*   **GEO:** Renderizar en SSR los metadatos JSON-LD de Schema.org para los "Agentic 6" con tasa de llenado >95%.
+*   **Endpoint `/api/ai-spec.json`:** Especificación pública legible por agentes de compra.
+*   **Doctrina "The Forge":** Vender el resultado, no la tecnología. Vídeo demo de 3 min + enlace de un solo clic.
+*   **WhatsApp:** Exclusivamente API Oficial. Prohibido usar QR/ingeniería inversa.
+*   **Instagram:** Máximo 3 respuestas por ejecución, pausa aleatoria 20-40s, respuestas únicas por LLM, cero enlaces públicos.
 
 ## SECCIÓN VIII: EL CICLO DE AUTOCORRECCIÓN ADVERSARIAL
 

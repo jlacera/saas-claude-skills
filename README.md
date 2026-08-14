@@ -301,3 +301,5 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on:
 Give it a star on GitHub! It helps other vibe-coders discover these standards.
 
 Made with 🔥 by vibe-coders who learned the hard way that speed without rigor creates invisible debt.
+
+

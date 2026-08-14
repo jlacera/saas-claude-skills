@@ -43,7 +43,7 @@ These skills are designed to work natively with **[Claude Code](https://claude.a
 
 ```bash
 # From your project root
-git clone https://github.com/YOUR_USERNAME/saas-claude-skills .claude/skills/saas-skills
+git clone https://github.com/jlacera/saas-claude-skills .claude/skills/saas-skills
 ```
 
 2. Tell Claude Code to use a skill in your conversation:
@@ -83,7 +83,7 @@ cp -r saas-claude-skills/2_definition-of-done YOUR_PROJECT/.claude/skills/defini
 Add this repo as a Git submodule so all your projects share the same skills:
 
 ```bash
-git submodule add https://github.com/YOUR_USERNAME/saas-claude-skills .claude/skills/saas-skills
+git submodule add https://github.com/jlacera/saas-claude-skills .claude/skills/saas-skills
 ```
 
 ---

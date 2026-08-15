@@ -1,0 +1,6 @@
+# Markdown is the product here. Keep it LF in the repository so a Windows clone
+# never republishes CRLF, and never let Git treat these files as binary.
+* text=auto eol=lf
+*.md text eol=lf
+*.json text eol=lf
+LICENSE text eol=lf

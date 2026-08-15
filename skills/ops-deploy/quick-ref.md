@@ -1,4 +1,4 @@
-﻿# ⚙️ Ops & Deploy — Quick Reference
+# ⚙️ Ops & Deploy — Quick Reference
 
 ## 🚨 Top 3 (if you read nothing else, read this)
 1. **No RED items reach production.** Every layer in the 13-layer gate must be GREEN or YELLOW before deploy.
@@ -20,7 +20,7 @@
 | 7 | **CI/CD** | Linter + typecheck + tests block merge on failure, rollback path tested | ⬜ |
 | 8 | **Security** | Restrictive CORS, CSP headers, dependency vulnerability scanning | ⬜ |
 | 9 | **Rate Limiting** | Per IP + per user on auth, payments, and LLM endpoints | ⬜ |
-| 10 | **Caching** | Tenant-scoped keys (	enant:{id}:key), explicit TTLs | ⬜ |
+| 10 | **Caching** | Tenant-scoped keys (`tenant:{id}:key`), explicit TTLs | ⬜ |
 | 11 | **Load Balancing** | Geographic balancing, auto-failover on region outage | ⬜ |
 | 12 | **Error Tracking** | Full stack traces in Sentry (private), sanitized HTTP responses (public) | ⬜ |
 | 13 | **Availability** | Daily backups with restore drills, health checks every 60s | ⬜ |
@@ -73,4 +73,4 @@ Run in an **incognito window** on the public domain after every deploy:
 ## 📎 Deep Context
 
 For the full 13-layer details, container architecture patterns, and rollback procedures:
-→ Read [skill.md](./skill.md)
+→ Read [SKILL.md](./SKILL.md)

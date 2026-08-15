@@ -1,7 +1,8 @@
-﻿# CLAUDE.md — Agent Operating Standards
+# CLAUDE.md — Agent Operating Standards
 # =======================================
 # Copy this file to the ROOT of your project.
-# Adjust the skill paths if you installed the skills in a different location.
+# It carries the rules that must be active in EVERY session. The six skills stay
+# lazy-loaded behind it — install them first (see the repository README).
 # Delete any sections that don't apply to your project.
 
 ---
@@ -16,19 +17,21 @@ You apply mature engineering judgment on every task — not just generate code q
 
 ## 📚 Skill Library (Lazy-Load — read only when relevant)
 
-The following skills are available. Load them **on demand** based on the task at hand.
-Do NOT load all skills at session start — load only what the current task requires.
+The following skills are available. Each one declares its own trigger conditions, so
+Claude loads it **on demand** when the task matches. Do NOT pull all six in at session
+start — that defeats the purpose. The table below is the map: if you are about to do
+something in the left column and the matching skill has not loaded, invoke it by name.
 
 **2-Layer Architecture:** Start with the **Quick Reference** (compact checklists + code snippets) for active coding. Load the **Full Context** only when you need the rationale behind a specific rule.
 
-| When to load | Skill file |
+| When to load | Skill |
 |---|---|
-| Any task / session start | .claude/skills/saas-skills/1_master-agent/skill.md |
-| Before marking any task as "done" | .claude/skills/saas-skills/2_definition-of-done/skill.md |
-| When touching Auth, DB, APIs, storage, or AI inputs | .claude/skills/saas-skills/3_seguridad-saas/skill.md |
-| Before any deployment or infra change | .claude/skills/saas-skills/4_ops-deploy/skill.md |
-| When touching Stripe, pricing, or usage limits | .claude/skills/saas-skills/5_billing-monetizacion/skill.md |
-| When working on SEO, landing pages, or growth automations | .claude/skills/saas-skills/6_crecimiento-growth/skill.md |
+| Any task / session start | the `master-agent` skill |
+| Before marking any task as "done" | the `definition-of-done` skill |
+| When touching Auth, DB, APIs, storage, or AI inputs | the `seguridad-saas` skill |
+| Before any deployment or infra change | the `ops-deploy` skill |
+| When touching Stripe, pricing, or usage limits | the `billing-monetizacion` skill |
+| When working on SEO, landing pages, or growth automations | the `crecimiento-growth` skill |
 
 ---
 
@@ -72,28 +75,28 @@ A module is DONE only when ALL of the following are true:
 - [ ] Domain logic test coverage ≥ 80%
 - [ ] Failure-path tests exist (null, timeout, concurrent load)
 - [ ] Cross-tenant isolation test in CI (if module touches DB/cache/storage)
-- [ ] 	enantId/userId extracted from server session only — never from client inputs
+- [ ] `tenantId`/`userId` extracted from server session only — never from client inputs
 - [ ] Zero secrets or PII in logs or HTTP responses
-- [ ] Structured JSON logs with correlationId and 	enantId
+- [ ] Structured JSON logs with `correlationId` and `tenantId`
 - [ ] Cost instrumented (if module calls LLMs or paid APIs)
 - [ ] Deployed to staging behind a feature flag
 - [ ] Traceability row closed with PR link
 
 > For module-specific additional requirements (UI, Red Lane, AI, Webhooks),
-> read: .claude/skills/saas-skills/2_definition-of-done/skill.md
+> read: the `definition-of-done` skill
 
 ---
 
 ## 🔒 Security Baselines (always active)
 
-- **IDOR**: Never trust user_id or 	enant_id from the request body or URL — extract from server session only
+- **IDOR**: Never trust `user_id` or `tenant_id` from the request body or URL — extract from server session only
 - **RLS**: No USING (true) policies in Supabase. Views require WITH (security_invoker = true)
-- **Redis**: All cache keys prefixed with 	enant:: — no exceptions
+- **Redis**: All cache keys prefixed with `tenant:{tenant_id}:` — no exceptions
 - **SSRF**: Block outbound requests to 127.0.0.1, 10.x, 172.16.x, 192.168.x, 169.254.169.254
 - **Storage**: Private files served via signed URLs only (max 60s TTL)
 - **Homebrew crypto**: Forbidden. Use Supabase Auth / Clerk / Better Auth
 
-> Full security rules: .claude/skills/saas-skills/3_seguridad-saas/skill.md
+> Full security rules: the `seguridad-saas` skill
 
 ---
 
@@ -104,7 +107,7 @@ A module is DONE only when ALL of the following are true:
 - Every charge includes a UUID Stripe-Idempotency-Key
 - sk_test_ keys never reach production; sk_live_ keys never touch dev
 
-> Full billing rules: .claude/skills/saas-skills/5_billing-monetizacion/skill.md
+> Full billing rules: the `billing-monetizacion` skill
 
 ---
 
@@ -114,8 +117,7 @@ Before submitting any code for review, run this internal checklist:
 1. **Memory leaks** — are there unclosed connections, listeners, or timers?
 2. **Billing math** — are currency values rounded correctly? No floating point for money?
 3. **RLS bypass** — does any cache layer sit in front of a DB policy and leak cross-tenant data?
-4. **Hallucinated packages** — verify every new 
-pm/pip package actually exists in the official registry with an active maintenance history
+4. **Hallucinated packages** — verify every new `npm`/`pip` package actually exists in the official registry with an active maintenance history
 5. **Byte-for-byte parity** — if this is a pure refactor, confirm the output is identical to production
 
 ---
@@ -129,7 +131,7 @@ pm/pip package actually exists in the official registry with an active maintenan
 | DB design, complex architecture, deep audits | Opus |
 | Full autonomous runs, Red Lane adversarial review | Fable |
 
-> Full orchestration guide: .claude/skills/saas-skills/1_master-agent/skill.md
+> Full orchestration guide: the `master-agent` skill
 
 ---
 

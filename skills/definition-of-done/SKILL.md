@@ -1,6 +1,17 @@
+---
+name: definition-of-done
+description: >
+  The 14-point universal Definition of Done that decides whether a module may
+  merge: public contract, published test double, context.md, 80% domain
+  coverage, failure-path tests, cross-tenant isolation test in CI, no secrets or
+  PII in logs, structured JSON logs, cost instrumentation, staging behind a
+  feature flag, traceability row closed. Adds stricter gates for Red Lane, UI,
+  generative-AI and webhook modules. Use before marking anything done, before
+  opening or merging a PR, or when the user asks "is this finished?", "esta
+  terminado?", "definition of done", "DoD", or what the quality gate requires.
+  Skill content is in Spanish.
+---
 # 🚪 LA PUERTA DE CALIDAD: DEFINITION OF DONE UNIVERSAL Y REQUISITOS ADICIONALES POR MÓDULO
-
-## `.claude/skills/definition-of-done/SKILL.md`
 
 Este documento rige la transición de estado de cualquier módulo en desarrollo. Establece criterios objetivos y deterministas para evitar que "terminado" sea un concepto subjetivo, eliminando la deuda técnica invisible en producción.
 

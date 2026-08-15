@@ -1,6 +1,16 @@
+---
+name: master-agent
+description: >
+  Core operating constitution for AI coding agents on a SaaS codebase: the five
+  immutable laws (atomic flow, zero TODOs, scope freeze, traceability in the same
+  PR, finished is immutable), Risk Lane classification, model routing per task
+  tier, token-budget context management, and the adversarial self-review run
+  before every PR. Use at the start of any development task, when splitting work
+  into modules, when deciding which model tier a task deserves, or when the user
+  asks about agent operating rules, "reglas del agente", vibe-coding discipline
+  or Risk Lanes. Skill content is in Spanish.
+---
 # 📜 REGLA DE ORO: DIRECTIVA MAESTRA DE COMPORTAMIENTO PARA AGENTES AUTÓNOMOS DE CÓDIGO (EDICIÓN VANGUARDIA 2026)
-
-## `.claude/skills/master-agent/SKILL.md`
 
 Este documento constituye la **Constitución Innegociable y la Regla de Oro** para el comportamiento, la toma de decisiones y el flujo de trabajo de cualquier agente autónomo de inteligencia artificial que asuma tareas de desarrollo en este repositorio, ya sea para un SaaS complejo o una pequeña aplicación. 
 
@@ -61,11 +71,10 @@ El repositorio almacena únicamente el código fuente de producción. Para evita
 ## SECCIÓN III: LA DEFINICIÓN DE TERMINADO (DoD) UNIVERSAL
 
 > 📎 **Skill dedicada:** Para el checklist completo de 14 puntos y los requisitos adicionales por tipo de módulo, consultar:
-> - Contexto completo: `2_definition-of-done/skill.md`
-> - Referencia rápida: `2_definition-of-done/quick-ref.md`
+> - Contexto completo: `definition-of-done/SKILL.md`
+> - Referencia rápida: `definition-of-done/quick-ref.md`
 
 Cualquier PR que pretenda marcar un módulo como **TERMINADO** debe satisfacer los 14 puntos del DoD Universal sin excepciones: contrato público, mocks, context.md, cobertura ≥80%, tests de fallo, aislamiento cross-tenant, autorización en servidor, sanitización de logs, observabilidad, coste instrumentado, despliegue en staging y cierre de trazabilidad.
-
 
 ## SECCIÓN IV: CARRILES DE RIESGO Y REQUISITOS ESPECIALIZADOS
 
@@ -110,8 +119,8 @@ Estos requisitos se suman de forma mandatoria al DoD universal:
 ## SECCIÓN V: EL ESCUDO DE SEGURIDAD SAAS AVANZADA (OWASP DUAL)
 
 > 📎 **Skill dedicada:** Para el marco OWASP dual completo, la matriz de aislamiento multi-tenant, cumplimiento EU AI Act y el protocolo StampHog:
-> - Contexto completo: `3_seguridad-saas/skill.md`
-> - Referencia rápida: `3_seguridad-saas/quick-ref.md`
+> - Contexto completo: `seguridad-saas/SKILL.md`
+> - Referencia rápida: `seguridad-saas/quick-ref.md`
 
 ### Resumen de Directivas Críticas
 *   **SSRF:** Bloquear peticiones salientes a IPs privadas, locales y metadatos cloud (`127.0.0.1`, `10.0.0.0/8`, `169.254.169.254`).
@@ -124,8 +133,8 @@ Estos requisitos se suman de forma mandatoria al DoD universal:
 ## SECCIÓN VI: ESTÁNDARES DE DESPLIEGUE, OPERACIONES E INSTRUMENTACIÓN FINANCIERA
 
 > 📎 **Skills dedicadas:** Para las reglas completas de despliegue, operaciones y control financiero:
-> - Despliegue y Ops: `4_ops-deploy/skill.md` | `4_ops-deploy/quick-ref.md`
-> - Billing y Monetización: `5_billing-monetizacion/skill.md` | `5_billing-monetizacion/quick-ref.md`
+> - Despliegue y Ops: `ops-deploy/SKILL.md` | `ops-deploy/quick-ref.md`
+> - Billing y Monetización: `billing-monetizacion/SKILL.md` | `billing-monetizacion/quick-ref.md`
 
 ### Resumen de Directivas Críticas
 *   **Gate de 13 Capas:** Ningún despliegue avanza a producción si un solo ítem se encuentra en ROJO.
@@ -140,8 +149,8 @@ Estos requisitos se suman de forma mandatoria al DoD universal:
 ## SECCIÓN VII: CRECIMIENTO Y MONETIZACIÓN IA-NATIVE
 
 > 📎 **Skill dedicada:** Para las reglas completas de adquisición, GEO y automatización de canales Meta:
-> - Contexto completo: `6_crecimiento-growth/skill.md`
-> - Referencia rápida: `6_crecimiento-growth/quick-ref.md`
+> - Contexto completo: `crecimiento-growth/SKILL.md`
+> - Referencia rápida: `crecimiento-growth/quick-ref.md`
 
 ### Resumen de Directivas Críticas
 *   **GEO:** Renderizar en SSR los metadatos JSON-LD de Schema.org para los "Agentic 6" con tasa de llenado >95%.

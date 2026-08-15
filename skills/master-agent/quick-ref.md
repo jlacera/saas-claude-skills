@@ -1,4 +1,4 @@
-﻿# 🤖 Master Agent — Quick Reference
+# 🤖 Master Agent — Quick Reference
 
 ## 🚨 Top 3 (if you read nothing else, read this)
 1. **One module at a time.** Never leave a module at 90% to start another — the remaining 10% costs 40% more due to context loss.
@@ -60,11 +60,11 @@ Before submitting any code for review:
 ## 📎 Deep Context
 
 For the full operating rules, orchestration philosophy, and context management strategies:
-→ Read [`skill.md`](./skill.md)
+→ Read [`SKILL.md`](./SKILL.md)
 
 For domain-specific rules, lazy-load the relevant skill:
-- Security → `3_seguridad-saas/`
-- Quality gate → `2_definition-of-done/`
-- Deploy & ops → `4_ops-deploy/`
-- Billing → `5_billing-monetizacion/`
-- Growth → `6_crecimiento-growth/`
+- Security → `seguridad-saas/`
+- Quality gate → `definition-of-done/`
+- Deploy & ops → `ops-deploy/`
+- Billing → `billing-monetizacion/`
+- Growth → `crecimiento-growth/`

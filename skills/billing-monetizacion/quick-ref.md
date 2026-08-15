@@ -1,4 +1,4 @@
-﻿# 💳 Billing & Monetization — Quick Reference
+# 💳 Billing & Monetization — Quick Reference
 
 ## 🚨 Top 3 (if you read nothing else, read this)
 1. **Never provision on redirect.** Credits, plans, and roles activate **only** after a cryptographically verified webhook event — never based on success_url redirect.
@@ -75,4 +75,4 @@ Up to **20% of cancellations** are involuntary (expired cards, insufficient fund
 ## 📎 Deep Context
 
 For the full transactional safety framework, webhook code patterns, and adaptive pricing details:
-→ Read [skill.md](./skill.md)
+→ Read [SKILL.md](./SKILL.md)

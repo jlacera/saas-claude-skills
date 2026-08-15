@@ -1,8 +1,8 @@
-﻿# 🛡️ SaaS Security — Quick Reference
+# 🛡️ SaaS Security — Quick Reference
 
 ## 🚨 Top 3 (if you read nothing else, read this)
-1. **Never trust IDs from the client.** Extract 	enantId/userId from the server-verified session token — never from URL params, headers, or request body.
-2. **Prefix every Redis key with tenant ID.** Format: 	enant:{tenant_id}:resource:{id}. Cache sits *before* the DB — RLS policies don't protect it.
+1. **Never trust IDs from the client.** Extract `tenantId`/`userId` from the server-verified session token — never from URL params, headers, or request body.
+2. **Prefix every Redis key with tenant ID.** Format: `tenant:{tenant_id}:resource:{id}`. Cache sits *before* the DB — RLS policies don't protect it.
 3. **All external input is hostile.** Reviews, emails, webhooks, user messages — treat as potential prompt injection. Agents process them in read-only mode under least privilege.
 
 ---
@@ -28,8 +28,8 @@
 
 | Layer | Risk | Isolation Directive |
 |-------|------|-------------------|
-| **Redis / Cache** | 🔴 High | Key format: 	enant:{tenant_id}:{cache_key} |
-| **Vector DB** | 🔴 High | 	enant_id metadata filter **before** similarity search |
+| **Redis / Cache** | 🔴 High | Key format: `tenant:{tenant_id}:{cache_key}` |
+| **Vector DB** | 🔴 High | `tenant_id` metadata filter **before** similarity search |
 | **Storage / Files** | 🟡 Medium | Path: /tenants/{tenant_id}/files/ + signed URLs |
 | **WebSockets / Events** | 🟡 Medium | JWT-scoped channel subscriptions per tenant |
 
@@ -41,7 +41,7 @@
 |-------------|---------------|
 | **Disclosure** | Visible, non-removable AI badge on all synthetic content |
 | **Consent** | Explicit opt-in gate — pre-checked boxes forbidden |
-| **Logging** | Append-only table: 	imestamp, model_name, input_hash, output_hash, user_session_id — 3yr retention |
+| **Logging** | Append-only table: `timestamp`, model_name, input_hash, output_hash, user_session_id — 3yr retention |
 
 ---
 
@@ -57,4 +57,4 @@ Match found → auto-merge **blocked** → escalated to senior security + human 
 ## 📎 Deep Context
 
 For OWASP dual framework details, NIST SP 800-218A alignment, and code examples:
-→ Read [skill.md](./skill.md)
+→ Read [SKILL.md](./SKILL.md)

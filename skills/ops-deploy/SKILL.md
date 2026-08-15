@@ -1,6 +1,17 @@
+---
+name: ops-deploy
+description: >
+  Production readiness and operations: the 13-layer deploy gate scored
+  green/yellow/red across frontend, APIs, database, auth, hosting, cloud, CI/CD,
+  security, rate limiting, caching, load balancing, error tracking and backups;
+  the hybrid serverless-to-container migration pattern with message queues; the
+  mandatory five-step post-deploy smoke test; and the incident runbook (contain,
+  rebuild, communicate, prevent). Use before any deploy or infrastructure
+  change, while handling a production incident, or when the user asks about
+  despliegue, deploy, produccion, runbook, smoke test or scaling workers. Skill
+  content is in Spanish.
+---
 # ⚙️ OPERACIONES INDUSTRIALES & DESPLIEGUE CONTINUO: EL GATE DE 13 CAPAS Y ESCALABILIDAD HÍBRIDA
-
-## `.claude/skills/ops-deploy/SKILL.md`
 
 Esta guía operativa detalla los procedimientos innegociables para el paso de aplicaciones a producción, la mitigación de fallos de infraestructura a gran escala y la arquitectura para procesar cargas de trabajo masivas sin comprometer la estabilidad del sistema.
 

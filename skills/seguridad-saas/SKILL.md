@@ -1,6 +1,17 @@
+---
+name: seguridad-saas
+description: >
+  Dual security shield for SaaS and AI: OWASP Top 10 Web (IDOR, Supabase RLS,
+  SSRF, no homebrew crypto) plus OWASP LLM Top 10 (direct and indirect prompt
+  injection, excessive agency, token DDoS), the multi-tenant isolation matrix
+  for cache, vector DB, storage and websockets, EU AI Act Article 50 disclosure
+  duties, and the StampHog CI protocol that blocks Red Lane merges. Use when
+  touching auth, sessions, tenant scoping, RLS policies, file storage,
+  user-supplied URLs or any input that reaches an LLM, and when the user asks
+  about seguridad, RLS, multi-tenant, prompt injection or IDOR. Skill content is
+  in Spanish.
+---
 # 🛡️ ESCUDO DE SEGURIDAD SAAS & IA: MITIGACIONES OWASP DUAL, SUPABASE RLS & PROTECCIÓN ADVERSARIAL
-
-## `.claude/skills/seguridad-saas/SKILL.md`
 
 Esta guía operativa constituye el estándar obligatorio e innegociable de seguridad para cualquier software, API o integración con Inteligencia Artificial que se despliegue en producción. Su cumplimiento combina las mejores prácticas de seguridad web tradicionales con las directrices de seguridad para modelos generativos de vanguardia de 2026.
 

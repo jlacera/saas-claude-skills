@@ -1,6 +1,17 @@
+---
+name: crecimiento-growth
+description: >
+  Acquisition aimed at AI agents, not only human searchers: Generative Engine
+  Optimization with server-rendered JSON-LD (Product, Offer, AggregateRating,
+  Review, FAQPage, ReturnPolicy), the public /api/ai-spec.json endpoint that
+  makes a product legible to AI buying agents, the "Forge" no-budget B2B
+  outreach doctrine, and the Meta anti-ban rules for WhatsApp Cloud API and
+  Instagram automation. Use when working on landing pages, SEO, structured data,
+  outreach sequences or social automation, and when the user asks about GEO,
+  SEO, schema markup, crecimiento, captacion or automatizaciones de Meta. Skill
+  content is in Spanish.
+---
 # 📈 ADQUISICIÓN AGENTIC Y CRECIMIENTO CON IA: GENERATIVE ENGINE OPTIMIZATION (GEO), CANALES DE META Y "THE FORGE" DOCTRINA
-
-## `.claude/skills/crecimiento-growth/SKILL.md`
 
 Esta guía operativa establece los estándares técnicos de posicionamiento y adquisición de clientes para que una aplicación sea descubrible, consumible y recomendada por agentes autónomos de IA y flujos de automatización seguros.
 

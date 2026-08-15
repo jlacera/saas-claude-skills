@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "saas-claude-skills",
+  "description": "Battle-tested engineering standards for building production SaaS with AI coding agents.",
+  "owner": {
+    "name": "jlacera",
+    "url": "https://github.com/jlacera"
+  },
+  "plugins": [
+    {
+      "name": "saas-claude-skills",
+      "description": "Six lazy-loaded skills covering agent operating rules, definition of done, SaaS + LLM security, deployment gates, Stripe billing safety, and agentic growth.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

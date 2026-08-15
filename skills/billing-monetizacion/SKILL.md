@@ -1,6 +1,16 @@
+---
+name: billing-monetizacion
+description: >
+  Stripe transactional safety and AI unit economics: cryptographic webhook
+  verification, provisioning only after a verified webhook and never on
+  redirect, an idempotency key per charge, strict test/live key isolation, the
+  $0.10 per-invocation cost circuit breaker, the monthly ARPU-minus-CPU margin
+  audit, and the anti-chargeback and dunning sequence. Use when touching
+  payments, checkout, subscriptions, credits, pricing tiers, usage limits or LLM
+  cost tracking, and when the user asks about Stripe, billing, facturacion,
+  suscripciones, margenes or chargebacks. Skill content is in Spanish.
+---
 # 💳 MONETIZACIÓN, BILLING & STRIPE OPERACIONAL: REGLAS DE CONTROL TRANSACCIONAL Y UNIT ECONOMICS
-
-## `.claude/skills/billing-monetizacion/SKILL.md`
 
 Esta guía operativa gobierna la integración financiera con pasarelas de pago (Stripe) y el monitoreo económico del negocio para garantizar flujos transaccionales seguros, evitar fraudes y mantener márgenes de rentabilidad saludables frente al consumo de APIs de IA.
 
@@ -41,7 +51,7 @@ La viabilidad de un SaaS nativo de IA depende de un control milimétrico del con
 
 ### 2. Modelado de Rentabilidad por Usuario (ARPU vs. CPU)
 *   El equipo evaluará mensualmente el margen unitario por cada nivel de precios (*pricing tier*) aplicando la fórmula:
-    $$	ext{Margen por Usuario} = 	ext{Ingreso Promedio por Usuario (ARPU)} - 	ext{Costo de Procesamiento Unitario (CPU)}$$
+    $$\text{Margen por Usuario} = \text{Ingreso Promedio por Usuario (ARPU)} - \text{Costo de Procesamiento Unitario (CPU)}$$
 *   Se considera **Bandera Roja** inmediata si el consumo de un usuario intensivo (*power user*) en un tier ilimitado o básico excede el ARPU asignado, forzando la re-evaluación de los límites del plan.
 
 ### 3. Spend Caps Duros en Proveedores

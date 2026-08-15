@@ -2,7 +2,7 @@
 
 > **A battle-tested collection of Claude Code skills for building production-grade SaaS applications with AI agents.** Designed for vibe-coders who want speed without sacrificing engineering maturity.
 
-> **⚠️ Note:** The skills are written in **Spanish**, as they were originally created for a Spanish-speaking team. The documentation (this file) is in English for maximum reach. Contributions and translations are welcome!
+> **⚠️ Note:** The skills are written in **Spanish**, as they were originally created for a Spanish-speaking team. The documentation (this file) and the skill trigger descriptions are in English for maximum reach. Contributions and translations are welcome!
 
 ---
 
@@ -20,70 +20,106 @@ The core insight is simple: **a Lazy-Loading skill architecture** means your AI 
 
 ## 📦 What's Inside
 
-This repository contains **6 Claude Code skills** with a **2-layer architecture** organized as a progressive engineering framework — from agent orchestration philosophy to growth tactics.
+**6 Claude Code skills** with a **2-layer architecture**, organized as a progressive engineering framework — from agent orchestration philosophy to growth tactics.
 
 | # | Skill | Domain | Summary |
 |---|-------|--------|---------|
-| 1 | [`master-agent`](./1_master-agent/) | 🤖 Orchestration | Core operating rules: the "Vibe-Coding Paradox", 5 immutable laws, multi-model routing & token-budget management |
-| 2 | [`definition-of-done`](./2_definition-of-done/) | ✅ Quality Gate | 14-point universal DoD checklist — makes "done" objective, deterministic and audit-proof |
-| 3 | [`seguridad-saas`](./3_seguridad-saas/) | 🛡️ Security | Dual OWASP shield (Web + LLM), multi-tenant isolation matrix, EU AI Act Art. 50, StampHog protocol |
-| 4 | [`ops-deploy`](./4_ops-deploy/) | ⚙️ Operations | 13-layer production gate, hybrid serverless ↔ container pattern, smoke test & incident runbook |
-| 5 | [`billing-monetizacion`](./5_billing-monetizacion/) | 💳 Billing | Stripe transactional safety, $0.10 cost circuit-breaker, unit economics, anti-churn dunning |
-| 6 | [`crecimiento-growth`](./6_crecimiento-growth/) | 📈 Growth | Agentic SEO (GEO), "The Forge" B2B doctrine, Meta API anti-ban rules |
+| 1 | [`master-agent`](./skills/master-agent/) | 🤖 Orchestration | Core operating rules: the "Vibe-Coding Paradox", 5 immutable laws, multi-model routing & token-budget management |
+| 2 | [`definition-of-done`](./skills/definition-of-done/) | ✅ Quality Gate | 14-point universal DoD checklist — makes "done" objective, deterministic and audit-proof |
+| 3 | [`seguridad-saas`](./skills/seguridad-saas/) | 🛡️ Security | Dual OWASP shield (Web + LLM), multi-tenant isolation matrix, EU AI Act Art. 50, StampHog protocol |
+| 4 | [`ops-deploy`](./skills/ops-deploy/) | ⚙️ Operations | 13-layer production gate, hybrid serverless ↔ container pattern, smoke test & incident runbook |
+| 5 | [`billing-monetizacion`](./skills/billing-monetizacion/) | 💳 Billing | Stripe transactional safety, $0.10 cost circuit-breaker, unit economics, anti-churn dunning |
+| 6 | [`crecimiento-growth`](./skills/crecimiento-growth/) | 📈 Growth | Agentic SEO (GEO), "The Forge" B2B doctrine, Meta API anti-ban rules |
+
+### The 2 layers
+
+Every skill ships as two files, so the agent pays for depth only when it needs depth:
+
+| File | Size | When it's read |
+|---|---|---|
+| `quick-ref.md` | ~1 page | Active coding. Compact checklists, tables and snippets — no rationale |
+| `SKILL.md` | full | When the agent needs the *why* behind a rule, or the long-form procedure |
 
 ---
 
 ## 🚀 Installation
 
-### Option A — Claude Code (Recommended)
+### Option A — Install as a plugin (recommended)
 
-These skills are designed to work natively with **[Claude Code](https://claude.ai/code)** via the `.claude/skills/` convention.
-
-1. Clone this repository into your project's `.claude/skills/` directory:
-
-```bash
-# From your project root
-git clone https://github.com/jlacera/saas-claude-skills .claude/skills/saas-skills
-```
-
-2. Tell Claude Code to use a skill in your conversation:
+The repository is its own Claude Code marketplace. Two commands, and all six skills become available in every session — Claude loads each one automatically when the task matches its description.
 
 ```
-Use the rules in .claude/skills/saas-skills/1_master-agent/skill.md
+/plugin marketplace add jlacera/saas-claude-skills
 ```
 
-Or reference the skills in your `CLAUDE.md` so they load automatically:
-
-```markdown
-# CLAUDE.md
-
-## Agent Operating Standards
-See .claude/skills/saas-skills/1_master-agent/skill.md for the agent operating rules.
-See .claude/skills/saas-skills/2_definition-of-done/skill.md for the DoD checklist.
-See .claude/skills/saas-skills/3_seguridad-saas/skill.md for the security standards.
 ```
+/plugin install saas-claude-skills@saas-claude-skills
+```
+
+Update later with `/plugin update saas-claude-skills`. Nothing is copied into your project, so your repository stays clean.
 
 ---
 
-### Option B — Manual copy
+### Option B — Copy the skills into one project
 
-Copy any skill folder directly into your project:
+Use this if you want the skills committed alongside a specific codebase.
 
 ```bash
-# Copy all skills at once
-cp -r saas-claude-skills/1_master-agent YOUR_PROJECT/.claude/skills/master-agent
-cp -r saas-claude-skills/2_definition-of-done YOUR_PROJECT/.claude/skills/definition-of-done
-# ... and so on
+git clone https://github.com/jlacera/saas-claude-skills /tmp/saas-claude-skills
+cp -r /tmp/saas-claude-skills/skills/* YOUR_PROJECT/.claude/skills/
 ```
+
+Each skill lands at `.claude/skills/<name>/SKILL.md`, which is the layout Claude Code discovers.
+
+> ⚠️ Do **not** `git clone` this repository directly into `.claude/skills/`. Skills are discovered one level deep, so an extra wrapper folder means nothing loads.
 
 ---
 
 ### Option C — Git submodule (shared across projects)
 
-Add this repo as a Git submodule so all your projects share the same skills:
+```bash
+git submodule add https://github.com/jlacera/saas-claude-skills .claude/vendor/saas-claude-skills
+```
+
+Then symlink (or copy) the individual skills into `.claude/skills/`:
 
 ```bash
-git submodule add https://github.com/jlacera/saas-claude-skills .claude/skills/saas-skills
+ln -s ../vendor/saas-claude-skills/skills/seguridad-saas .claude/skills/seguridad-saas
+```
+
+---
+
+### Recommended: add the CLAUDE.md template
+
+[`templates/CLAUDE.md`](./templates/CLAUDE.md) carries the rules that should be active in **every** session — the 5 immutable laws, Risk Lane classification, security and billing baselines — plus placeholders for your stack and current focus. The six skills stay lazy-loaded behind it.
+
+```bash
+cp templates/CLAUDE.md YOUR_PROJECT/CLAUDE.md
+```
+
+Then fill in the "Project-Specific Context" section at the bottom.
+
+---
+
+## 🧭 How the skills load
+
+Each `SKILL.md` starts with YAML frontmatter containing a `name` and a `description`. Claude reads those descriptions and loads a skill **only when the task matches** — you don't have to name the file.
+
+```yaml
+---
+name: seguridad-saas
+description: >
+  Dual security shield for SaaS and AI: OWASP Top 10 Web (IDOR, Supabase RLS,
+  SSRF, no homebrew crypto) plus OWASP LLM Top 10 ... Use when touching auth,
+  sessions, tenant scoping, RLS policies, file storage, user-supplied URLs or
+  any input that reaches an LLM ...
+---
+```
+
+In practice: ask for a Stripe webhook handler and `billing-monetizacion` loads itself. Touch an RLS policy and `seguridad-saas` loads. You can still force one explicitly:
+
+```
+Use the seguridad-saas skill to review this endpoint.
 ```
 
 ---
@@ -92,7 +128,7 @@ git submodule add https://github.com/jlacera/saas-claude-skills .claude/skills/s
 
 ### 1. 🤖 Master Agent — Operating Constitution for AI Agents
 
-> **File:** [`1_master-agent/skill.md`](./1_master-agent/skill.md)
+> **Files:** [`skills/master-agent/SKILL.md`](./skills/master-agent/SKILL.md) · [`quick-ref.md`](./skills/master-agent/quick-ref.md)
 
 The foundational "constitution" for any AI agent working on a SaaS codebase. A single reference that replaces brittle wiki docs with executable, enforceable rules.
 
@@ -108,7 +144,7 @@ The foundational "constitution" for any AI agent working on a SaaS codebase. A s
 
 ### 2. ✅ Definition of Done — The 14-Point Quality Gate
 
-> **File:** [`2_definition-of-done/skill.md`](./2_definition-of-done/skill.md)
+> **Files:** [`skills/definition-of-done/SKILL.md`](./skills/definition-of-done/SKILL.md) · [`quick-ref.md`](./skills/definition-of-done/quick-ref.md)
 
 Replaces subjective "done" with a deterministic, audit-proof 14-point checklist. If a module doesn't pass all 14, it doesn't merge.
 
@@ -128,7 +164,7 @@ Replaces subjective "done" with a deterministic, audit-proof 14-point checklist.
 
 ### 3. 🛡️ SaaS Security — Dual OWASP Shield
 
-> **File:** [`3_seguridad-saas/skill.md`](./3_seguridad-saas/skill.md)
+> **Files:** [`skills/seguridad-saas/SKILL.md`](./skills/seguridad-saas/SKILL.md) · [`quick-ref.md`](./skills/seguridad-saas/quick-ref.md)
 
 The mandatory security standard for 2026 — combining classic web hardening with generative AI threat mitigation, under the **NIST SP 800-218A** corporate framework.
 
@@ -163,7 +199,7 @@ The mandatory security standard for 2026 — combining classic web hardening wit
 
 ### 4. ⚙️ Ops & Deploy — 13-Layer Production Gate
 
-> **File:** [`4_ops-deploy/skill.md`](./4_ops-deploy/skill.md)
+> **Files:** [`skills/ops-deploy/SKILL.md`](./skills/ops-deploy/SKILL.md) · [`quick-ref.md`](./skills/ops-deploy/quick-ref.md)
 
 No deployment reaches production with a single **RED** item. Each layer is evaluated as Green / Yellow / Red:
 
@@ -191,7 +227,7 @@ Pattern: `Lightweight Serverless API → Message Queue (Redis/SQS) → Docker Wo
 
 ### 5. 💳 Billing & Monetization — Stripe Safety Rules
 
-> **File:** [`5_billing-monetizacion/skill.md`](./5_billing-monetizacion/skill.md)
+> **Files:** [`skills/billing-monetizacion/SKILL.md`](./skills/billing-monetizacion/SKILL.md) · [`quick-ref.md`](./skills/billing-monetizacion/quick-ref.md)
 
 Every dollar charged through this system is governed by four non-negotiable pillars and a continuous unit economics monitor.
 
@@ -218,7 +254,7 @@ Every dollar charged through this system is governed by four non-negotiable pill
 
 ### 6. 📈 Growth — Agentic Acquisition & GEO
 
-> **File:** [`6_crecimiento-growth/skill.md`](./6_crecimiento-growth/skill.md)
+> **Files:** [`skills/crecimiento-growth/SKILL.md`](./skills/crecimiento-growth/SKILL.md) · [`quick-ref.md`](./skills/crecimiento-growth/quick-ref.md)
 
 In 2026, acquisition traffic comes from AI buying agents — not just humans doing Google searches. If your SaaS isn't optimized for synthetic discovery, it doesn't exist.
 
@@ -249,33 +285,30 @@ Server-side rendered (SSR) JSON-LD Schema.org markup with >95% fill rate — AI 
 
 ---
 
-
 ## 🗂️ Repository Structure
 
 ```
 saas-claude-skills/
-├── README.md                          ← You are here
-├── CONTRIBUTING.md                    ← How to contribute
-├── LICENSE                            ← MIT License
-├── .gitignore
+├── .claude-plugin/
+│   ├── plugin.json                    ← plugin manifest
+│   └── marketplace.json               ← makes this repo its own marketplace
 │
-├── 1_master-agent/
-│   └── skill.md                      ← Master agent operating rules
+├── skills/
+│   ├── master-agent/
+│   │   ├── SKILL.md                   ← full context (frontmatter + rules)
+│   │   └── quick-ref.md               ← compact checklists for active coding
+│   ├── definition-of-done/
+│   ├── seguridad-saas/
+│   ├── ops-deploy/
+│   ├── billing-monetizacion/
+│   └── crecimiento-growth/
 │
-├── 2_definition-of-done/
-│   └── skill.md                      ← 14-point DoD universal checklist
+├── templates/
+│   └── CLAUDE.md                      ← drop-in project template
 │
-├── 3_seguridad-saas/
-│   └── skill.md                      ← Dual OWASP security shield
-│
-├── 4_ops-deploy/
-│   └── skill.md                      ← 13-layer production gate
-│
-├── 5_billing-monetizacion/
-│   └── skill.md                      ← Stripe billing safety rules
-│
-└── 6_crecimiento-growth/
-    └── skill.md                      ← GEO & agentic growth tactics
+├── README.md                          ← you are here
+├── CONTRIBUTING.md
+└── LICENSE                            ← MIT
 ```
 
 ---
@@ -301,5 +334,3 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on:
 Give it a star on GitHub! It helps other vibe-coders discover these standards.
 
 Made with 🔥 by vibe-coders who learned the hard way that speed without rigor creates invisible debt.
-
-

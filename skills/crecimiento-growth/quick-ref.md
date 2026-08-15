@@ -1,4 +1,4 @@
-﻿# 📈 Growth & Acquisition — Quick Reference
+# 📈 Growth & Acquisition — Quick Reference
 
 ## 🚨 Top 3 (if you read nothing else, read this)
 1. **If AI agents can't read your product page, you don't exist.** Server-side render JSON-LD Schema.org markup — AI crawlers don't execute client-side JavaScript.
@@ -67,4 +67,4 @@ For founders launching without budget or network:
 ## 📎 Deep Context
 
 For the full GEO implementation guide, ai-spec.json schema, and Meta API configuration:
-→ Read [skill.md](./skill.md)
+→ Read [SKILL.md](./SKILL.md)

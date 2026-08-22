@@ -1,6 +1,6 @@
 # 🧠 SaaS Claude Skills — Vibe-Coding Engineering Standards
 
-> **A battle-tested collection of Claude Code skills for building production-grade SaaS applications with AI agents.** Designed for vibe-coders who want speed without sacrificing engineering maturity.
+> **A collection of Claude Code skills for building production-grade SaaS applications with AI agents.** For vibe-coders who want speed without giving up engineering maturity.
 
 > **⚠️ Note:** The skills are written in **Spanish**, as they were originally created for a Spanish-speaking team. The documentation (this file) and the skill trigger descriptions are in English for maximum reach. Contributions and translations are welcome!
 
@@ -10,7 +10,7 @@
 
 The shift toward a **Separation of Concerns + Lazy-Loading architecture** is the only viable path in 2026 for vibe-coding to mature into a structured, secure, and profitable software engineering discipline.
 
-This collection was **not built from theoretical manuals or lab assumptions**. It was forged from real battle scars — from engineers who have watched databases collapse, API budgets drain overnight, and perfectly-running demos turn into spaghetti code in production because no clear boundaries were set for code agents.
+This collection was **not built from theoretical manuals or lab assumptions**. It comes from real projects — from engineers who have watched a database collapse, an API budget drain overnight, and a demo that ran perfectly turn into unmaintainable code in production, because nobody set clear boundaries for the agents.
 
 > *"Speed without rigor doesn't produce MVPs — it produces invisible debt."*
 

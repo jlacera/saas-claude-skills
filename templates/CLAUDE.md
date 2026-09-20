@@ -26,12 +26,16 @@ something in the left column and the matching skill has not loaded, invoke it by
 
 | When to load | Skill |
 |---|---|
-| Any task / session start | the `master-agent` skill |
-| Before marking any task as "done" | the `definition-of-done` skill |
-| When touching Auth, DB, APIs, storage, or AI inputs | the `seguridad-saas` skill |
-| Before any deployment or infra change | the `ops-deploy` skill |
-| When touching Stripe, pricing, or usage limits | the `billing-monetizacion` skill |
-| When working on SEO, landing pages, or growth automations | the `crecimiento-growth` skill |
+| Any task / session start | the `saas-agent-rules` skill |
+| Before marking any task as "done" | the `saas-definition-of-done` skill |
+| When touching Auth, DB, APIs, storage, or AI inputs | the `saas-security-workflow` skill |
+| Before any deployment or infra change | the `saas-production-readiness` skill |
+| When touching Stripe, pricing, or usage limits | the `saas-billing-unit-economics` skill |
+| When working on SEO, landing pages, or growth automations | the `saas-growth-geo` skill |
+| Starting or resuming a project, unsure which skill applies | the `saas-project-kickoff` skill |
+| Before writing the first line of code on a new product | the `saas-architecture-blueprint` skill |
+| Reviewing a diff, a PR, or auditing existing code | the `saas-adversarial-audit` skill |
+| A contract asks for ISO 27001, ENS, NIS2 or a security questionnaire | the `saas-compliance-readiness` skill |
 
 ---
 
@@ -83,7 +87,7 @@ A module is DONE only when ALL of the following are true:
 - [ ] Traceability row closed with PR link
 
 > For module-specific additional requirements (UI, Red Lane, AI, Webhooks),
-> read: the `definition-of-done` skill
+> read: the `saas-definition-of-done` skill
 
 ---
 
@@ -96,7 +100,7 @@ A module is DONE only when ALL of the following are true:
 - **Storage**: Private files served via signed URLs only (max 60s TTL)
 - **Homebrew crypto**: Forbidden. Use Supabase Auth / Clerk / Better Auth
 
-> Full security rules: the `seguridad-saas` skill
+> Full security rules: the `saas-security-workflow` skill
 
 ---
 
@@ -107,7 +111,7 @@ A module is DONE only when ALL of the following are true:
 - Every charge includes a UUID Stripe-Idempotency-Key
 - sk_test_ keys never reach production; sk_live_ keys never touch dev
 
-> Full billing rules: the `billing-monetizacion` skill
+> Full billing rules: the `saas-billing-unit-economics` skill
 
 ---
 
@@ -131,7 +135,7 @@ Before submitting any code for review, run this internal checklist:
 | DB design, complex architecture, deep audits | Opus |
 | Full autonomous runs, Red Lane adversarial review | Fable |
 
-> Full orchestration guide: the `master-agent` skill
+> Full orchestration guide: the `saas-agent-rules` skill
 
 ---
 

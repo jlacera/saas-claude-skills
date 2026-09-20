@@ -1,7 +1,7 @@
 {
   "name": "saas-claude-skills",
-  "version": "1.0.0",
-  "description": "Six production-grade engineering skills for shipping SaaS with AI agents: agent operating rules, a 14-point definition of done, a dual OWASP security shield, a 13-layer deploy gate, Stripe billing safety, and agentic growth.",
+  "version": "2.0.0",
+  "description": "Ten lazy-loaded skills for shipping production SaaS with AI coding agents: a lifecycle orchestrator with hard gates, Phase 0 architecture decisions, agent operating rules, dual OWASP security doctrine, an adversarial audit catalogue of 40+ AI-generated failure patterns with a deterministic scanner, a 16-point definition of done, Stripe billing safety and unit economics, a 13-layer deploy gate, EU compliance readiness, and agentic growth.",
   "author": {
     "name": "jlacera",
     "url": "https://github.com/jlacera"
@@ -14,11 +14,16 @@
     "vibe-coding",
     "security",
     "owasp",
+    "adversarial-audit",
+    "code-review",
     "stripe",
     "billing",
     "devops",
     "definition-of-done",
-    "multi-tenant"
+    "multi-tenant",
+    "gdpr",
+    "iso-27001",
+    "nis2"
   ],
   "skills": "./skills/"
 }

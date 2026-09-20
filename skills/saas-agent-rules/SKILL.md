@@ -1,5 +1,5 @@
 ---
-name: master-agent
+name: saas-agent-rules
 description: >
   Core operating constitution for AI coding agents on a SaaS codebase: the five
   immutable laws (atomic flow, zero TODOs, scope freeze, traceability in the same
@@ -31,6 +31,7 @@ Para evitar que "terminado" sea una opinión subjetiva y evitar la deuda técnic
 *   **Ley 3 — Congelamiento de Alcance Activo:** El alcance de un módulo se congela en el instante en que comienza su desarrollo. Cualquier idea o mejora ad-hoc que surja durante la construcción debe documentarse y enviarse de forma inmediata al backlog con su respectivo identificador. Implementar "solo una cosa más" multiplica exponencialmente los cronogramas.
 *   **Ley 4 — Actualización de Trazabilidad en el mismo PR:** La fila correspondiente en la matriz de trazabilidad del proyecto debe actualizarse en el mismo Pull Request que cierra el módulo. Si el PR no toca y cierra la matriz, el módulo no se considera candidato para fusión.
 *   **Ley 5 — Inmutabilidad del Código Terminado:** Un módulo terminado no se vuelve a tocar salvo por corrección de un bug crítico en producción o por un cambio de contrato explícitamente aprobado. No se permiten "mejoras de refactorización" informales sin un ticket asignado.
+*   **Ley 6 — El Revisor Independiente:** El modelo que construye no revisa. Pedirle a la misma sesión que confirme si su propio código está bien es pedirle que evalúe su razonamiento con el sesgo que lo produjo; dirá que está bien. En Carril Rojo la auditoría se ejecuta obligatoriamente en una **sesión nueva sin contexto del desarrollo**, en un **subagente lanzado como auditor**, o en un **modelo distinto**. El auditor recibe el código y el prompt auditor; **nunca recibe la justificación del autor**, porque esa justificación es exactamente el sesgo que se quiere eliminar. La skill `saas-adversarial-audit` contiene el catálogo de patrones y el escáner determinista que ejecuta este revisor.
 
 ### 3. Sustitución de Wikidocs por Skills Ejecutables (*Docs Rot*)
 Las wikis y los documentos de arquitectura estáticos sufren de una silenciosa e inevitable pudrición de documentación (*Docs Rot*). Cuando un agente lee guías desactualizadas a las 2 AM, la falla es de la herramienta estática.
@@ -71,10 +72,10 @@ El repositorio almacena únicamente el código fuente de producción. Para evita
 ## SECCIÓN III: LA DEFINICIÓN DE TERMINADO (DoD) UNIVERSAL
 
 > 📎 **Skill dedicada:** Para el checklist completo de 14 puntos y los requisitos adicionales por tipo de módulo, consultar:
-> - Contexto completo: `definition-of-done/SKILL.md`
-> - Referencia rápida: `definition-of-done/quick-ref.md`
+> - Contexto completo: `saas-definition-of-done/SKILL.md`
+> - Referencia rápida: `saas-definition-of-done/quick-ref.md`
 
-Cualquier PR que pretenda marcar un módulo como **TERMINADO** debe satisfacer los 14 puntos del DoD Universal sin excepciones: contrato público, mocks, context.md, cobertura ≥80%, tests de fallo, aislamiento cross-tenant, autorización en servidor, sanitización de logs, observabilidad, coste instrumentado, despliegue en staging y cierre de trazabilidad.
+Cualquier PR que pretenda marcar un módulo como **TERMINADO** debe satisfacer los 16 puntos del DoD Universal sin excepciones: contrato público, mocks, context.md, cobertura ≥80%, tests de fallo, aislamiento cross-tenant, autorización en servidor, sanitización de logs, observabilidad, coste instrumentado, despliegue en staging y cierre de trazabilidad.
 
 ## SECCIÓN IV: CARRILES DE RIESGO Y REQUISITOS ESPECIALIZADOS
 
@@ -119,8 +120,8 @@ Estos requisitos se suman de forma mandatoria al DoD universal:
 ## SECCIÓN V: EL ESCUDO DE SEGURIDAD SAAS AVANZADA (OWASP DUAL)
 
 > 📎 **Skill dedicada:** Para el marco OWASP dual completo, la matriz de aislamiento multi-tenant, cumplimiento EU AI Act y el protocolo StampHog:
-> - Contexto completo: `seguridad-saas/SKILL.md`
-> - Referencia rápida: `seguridad-saas/quick-ref.md`
+> - Contexto completo: `saas-security-workflow/SKILL.md`
+> - Referencia rápida: `saas-security-workflow/quick-ref.md`
 
 ### Resumen de Directivas Críticas
 *   **SSRF:** Bloquear peticiones salientes a IPs privadas, locales y metadatos cloud (`127.0.0.1`, `10.0.0.0/8`, `169.254.169.254`).
@@ -133,8 +134,8 @@ Estos requisitos se suman de forma mandatoria al DoD universal:
 ## SECCIÓN VI: ESTÁNDARES DE DESPLIEGUE, OPERACIONES E INSTRUMENTACIÓN FINANCIERA
 
 > 📎 **Skills dedicadas:** Para las reglas completas de despliegue, operaciones y control financiero:
-> - Despliegue y Ops: `ops-deploy/SKILL.md` | `ops-deploy/quick-ref.md`
-> - Billing y Monetización: `billing-monetizacion/SKILL.md` | `billing-monetizacion/quick-ref.md`
+> - Despliegue y Ops: `saas-production-readiness/SKILL.md` | `saas-production-readiness/quick-ref.md`
+> - Billing y Monetización: `saas-billing-unit-economics/SKILL.md` | `saas-billing-unit-economics/quick-ref.md`
 
 ### Resumen de Directivas Críticas
 *   **Gate de 13 Capas:** Ningún despliegue avanza a producción si un solo ítem se encuentra en ROJO.
@@ -149,8 +150,8 @@ Estos requisitos se suman de forma mandatoria al DoD universal:
 ## SECCIÓN VII: CRECIMIENTO Y MONETIZACIÓN IA-NATIVE
 
 > 📎 **Skill dedicada:** Para las reglas completas de adquisición, GEO y automatización de canales Meta:
-> - Contexto completo: `crecimiento-growth/SKILL.md`
-> - Referencia rápida: `crecimiento-growth/quick-ref.md`
+> - Contexto completo: `saas-growth-geo/SKILL.md`
+> - Referencia rápida: `saas-growth-geo/quick-ref.md`
 
 ### Resumen de Directivas Críticas
 *   **GEO:** Renderizar en SSR los metadatos JSON-LD de Schema.org para los "Agentic 6" con tasa de llenado >95%.
@@ -160,6 +161,8 @@ Estos requisitos se suman de forma mandatoria al DoD universal:
 *   **Instagram:** Máximo 3 respuestas por ejecución, pausa aleatoria 20-40s, respuestas únicas por LLM, cero enlaces públicos.
 
 ## SECCIÓN VIII: EL CICLO DE AUTOCORRECCIÓN ADVERSARIAL
+
+> 📎 **Skill dedicada:** el catálogo de 40+ patrones de fallo del código generado por IA, los prompts auditores por stack y el escáner determinista `quick-scan.sh` están en `saas-adversarial-audit/SKILL.md`. La autocorrección de esta sección es el mínimo que ejecuta el propio autor; **no sustituye** a la auditoría del revisor independiente exigida por la Ley 6.
 
 Antes de entregar cualquier código para Pull Request, el agente ejecutará internamente un ciclo de simulación adversarial:
 1.  **"Ataca tu propia conclusión":** El agente actuará como un desarrollador revisor malicioso que busca de forma exhaustiva:

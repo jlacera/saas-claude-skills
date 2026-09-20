@@ -1,35 +1,59 @@
 # 🧠 SaaS Claude Skills — Vibe-Coding Engineering Standards
 
-> **A collection of Claude Code skills for building production-grade SaaS applications with AI agents.** For vibe-coders who want speed without giving up engineering maturity.
+> **A plugin of Claude Code skills for building production-grade SaaS with AI agents.** For vibe-coders who want speed without giving up engineering maturity.
 
-> **⚠️ Note:** The skills are written in **Spanish**, as they were originally created for a Spanish-speaking team. The documentation (this file) and the skill trigger descriptions are in English for maximum reach. Contributions and translations are welcome!
+> **⚠️ Note:** The skills are written in **Spanish**, as they were originally created for a Spanish-speaking team. The documentation and the skill trigger descriptions are in English for maximum reach. Contributions and translations are welcome.
+
+**v2.0.0** — the lifecycle orchestrator, the Phase 0 blueprint and the adversarial audit catalogue join the collection. See [What changed in v2](#-what-changed-in-v20).
 
 ---
 
 ## 🔥 Why This Exists
 
-The shift toward a **Separation of Concerns + Lazy-Loading architecture** is the only viable path in 2026 for vibe-coding to mature into a structured, secure, and profitable software engineering discipline.
-
-This collection was **not built from theoretical manuals or lab assumptions**. It comes from real projects — from engineers who have watched a database collapse, an API budget drain overnight, and a demo that ran perfectly turn into unmaintainable code in production, because nobody set clear boundaries for the agents.
+This collection was **not built from theoretical manuals**. It comes from real projects — from watching a database collapse, an API budget drain overnight, and a demo that ran perfectly turn into unmaintainable code in production, because nobody set clear boundaries for the agents.
 
 > *"Speed without rigor doesn't produce MVPs — it produces invisible debt."*
 
-The core insight is simple: **a Lazy-Loading skill architecture** means your AI agent only loads the context it needs for the task at hand — security rules when touching auth, billing rules when touching Stripe, deploy rules when going to production. This keeps the context window lean, the agent focused, and the output trustworthy.
+AI-generated code has a signature failure mode: it is syntactically impeccable, passes trivial unit tests, and omits security boundaries, multi-tenant isolation and state lifecycles entirely. These skills exist to close that gap **during** development, not after the incident.
+
+**Lazy loading** is the architecture: the agent loads security rules when it touches auth, billing rules when it touches Stripe, the audit catalogue when it reviews a diff. The context window stays lean and the output stays trustworthy.
 
 ---
 
 ## 📦 What's Inside
 
-**6 Claude Code skills** with a **2-layer architecture**, organized as a progressive engineering framework — from agent orchestration philosophy to growth tactics.
+**10 skills**, each shipping a **2-layer architecture**, organised as a lifecycle with hard gates between phases.
 
 | # | Skill | Domain | Summary |
 |---|-------|--------|---------|
-| 1 | [`master-agent`](./skills/master-agent/) | 🤖 Orchestration | Core operating rules: the "Vibe-Coding Paradox", 5 immutable laws, multi-model routing & token-budget management |
-| 2 | [`definition-of-done`](./skills/definition-of-done/) | ✅ Quality Gate | 14-point universal DoD checklist — makes "done" objective, deterministic and audit-proof |
-| 3 | [`seguridad-saas`](./skills/seguridad-saas/) | 🛡️ Security | Dual OWASP shield (Web + LLM), multi-tenant isolation matrix, EU AI Act Art. 50, StampHog protocol |
-| 4 | [`ops-deploy`](./skills/ops-deploy/) | ⚙️ Operations | 13-layer production gate, hybrid serverless ↔ container pattern, smoke test & incident runbook |
-| 5 | [`billing-monetizacion`](./skills/billing-monetizacion/) | 💳 Billing | Stripe transactional safety, $0.10 cost circuit-breaker, unit economics, anti-churn dunning |
-| 6 | [`crecimiento-growth`](./skills/crecimiento-growth/) | 📈 Growth | Agentic SEO (GEO), "The Forge" B2B doctrine, Meta API anti-ban rules |
+| 1 | [`saas-project-kickoff`](./skills/saas-project-kickoff/) | 🧭 Orchestration | Single entry point. Detects the real project phase, invokes the right skill, enforces Gates 0–3 and maintains `PROJECT_STATE.md` |
+| 2 | [`saas-agent-rules`](./skills/saas-agent-rules/) | 🤖 Agent constitution | 6 immutable laws, Risk Lanes, multi-model routing, token-budget management, adversarial self-correction |
+| 3 | [`saas-architecture-blueprint`](./skills/saas-architecture-blueprint/) | 🏗️ Phase 0 | The 12 irreversible decisions — tenancy, identity, IDs, entitlements, audit, migrations, cache isolation — closed in writing before any code |
+| 4 | [`saas-security-workflow`](./skills/saas-security-workflow/) | 🛡️ Security doctrine | 3 shields, 13 commandments, 30-minute production matrix, dual OWASP (Web + LLM), EU AI Act Art. 50, StampHog gate |
+| 5 | [`saas-adversarial-audit`](./skills/saas-adversarial-audit/) | 🔎 Code-level audit | 40+ failure patterns of AI-generated code, stack-routed auditor prompts, and a deterministic grep scanner |
+| 6 | [`saas-definition-of-done`](./skills/saas-definition-of-done/) | ✅ Quality gate | 16-point DoD — makes "done" objective, deterministic and audit-proof |
+| 7 | [`saas-billing-unit-economics`](./skills/saas-billing-unit-economics/) | 💳 Billing | Red Lane Gate, the 4 golden rules, idempotency, anti-chargeback, dunning, $0.10 cost circuit-breaker |
+| 8 | [`saas-production-readiness`](./skills/saas-production-readiness/) | ⚙️ Operations | 13-layer deploy gate, smoke test on the real domain, rollback under 60s, restore drill, incident runbooks |
+| 9 | [`saas-compliance-readiness`](./skills/saas-compliance-readiness/) | 📑 Compliance | Evidence-based readiness for GDPR, ISO 27001, ENS, NIS2 and SOC 2 — plus the build-vs-buy stack audit |
+| 10 | [`saas-growth-geo`](./skills/saas-growth-geo/) | 📈 Growth | Generative Engine Optimization, `/api/ai-spec.json`, "The Forge" B2B doctrine, Meta anti-ban rules |
+
+### The canonical chain
+
+```
+          TRANSVERSAL      ->  saas-agent-rules, saas-definition-of-done
+
+FASE 0 — ESTRUCTURA        ->  saas-architecture-blueprint
+   | [GATE 0: 12 decisions closed in writing]
+FASE 1 — DESARROLLO        ->  saas-security-workflow + saas-adversarial-audit
+   | [GATE 1: 3 shields, 13 commandments, quick-scan with zero CRITICALs]
+FASE 2 — MONETIZACION      ->  saas-billing-unit-economics
+   | [GATE 2: Red Lane signed, positive margin per tier]
+FASE 3 — PUESTA EN MARCHA  ->  saas-production-readiness
+   | [GATE 3: 13 layers with no REDs, smoke test, restore drill]
+        PRODUCTION
+
+          ON DEMAND        ->  saas-compliance-readiness, saas-growth-geo
+```
 
 ### The 2 layers
 
@@ -37,8 +61,22 @@ Every skill ships as two files, so the agent pays for depth only when it needs d
 
 | File | Size | When it's read |
 |---|---|---|
-| `quick-ref.md` | ~1 page | Active coding. Compact checklists, tables and snippets — no rationale |
-| `SKILL.md` | full | When the agent needs the *why* behind a rule, or the long-form procedure |
+| `quick-ref.md` | ~1 page | Active coding. Compact checklists and tables — no rationale |
+| `SKILL.md` | full | When the agent needs the *why*, or the long-form procedure |
+
+`saas-adversarial-audit` adds a third layer: `references/` holds eight stack-specific auditor files, loaded only when that stack is present.
+
+---
+
+## 🔎 The adversarial scanner
+
+```bash
+bash skills/saas-adversarial-audit/scripts/quick-scan.sh
+```
+
+Run from the root of the project under review. It proves 15 of the 40 patterns in seconds — unsafe raw SQL, mass assignment, unverified JWT decoding, wildcard CORS, unsigned webhook handlers, cron routes without a secret, secrets behind a public env prefix, and more. Exit code 1 when a CRITICAL pattern matches, so it drops straight into CI.
+
+A clean run does **not** mean the code is safe. It means those 15 patterns are absent. The other 25 need the auditor prompts in `references/`, run by a reviewer that is **not** the session that wrote the code.
 
 ---
 
@@ -46,7 +84,7 @@ Every skill ships as two files, so the agent pays for depth only when it needs d
 
 ### Option A — Install as a plugin (recommended)
 
-The repository is its own Claude Code marketplace. Two commands, and all six skills become available in every session — Claude loads each one automatically when the task matches its description.
+The repository is its own Claude Code marketplace.
 
 ```
 /plugin marketplace add jlacera/saas-claude-skills
@@ -58,46 +96,29 @@ The repository is its own Claude Code marketplace. Two commands, and all six ski
 
 Update later with `/plugin update saas-claude-skills`. Nothing is copied into your project, so your repository stays clean.
 
----
-
 ### Option B — Copy the skills into one project
-
-Use this if you want the skills committed alongside a specific codebase.
 
 ```bash
 git clone https://github.com/jlacera/saas-claude-skills /tmp/saas-claude-skills
 cp -r /tmp/saas-claude-skills/skills/* YOUR_PROJECT/.claude/skills/
 ```
 
-Each skill lands at `.claude/skills/<name>/SKILL.md`, which is the layout Claude Code discovers.
-
 > ⚠️ Do **not** `git clone` this repository directly into `.claude/skills/`. Skills are discovered one level deep, so an extra wrapper folder means nothing loads.
-
----
 
 ### Option C — Git submodule (shared across projects)
 
 ```bash
 git submodule add https://github.com/jlacera/saas-claude-skills .claude/vendor/saas-claude-skills
+ln -s ../vendor/saas-claude-skills/skills/saas-security-workflow .claude/skills/saas-security-workflow
 ```
-
-Then symlink (or copy) the individual skills into `.claude/skills/`:
-
-```bash
-ln -s ../vendor/saas-claude-skills/skills/seguridad-saas .claude/skills/seguridad-saas
-```
-
----
 
 ### Recommended: add the CLAUDE.md template
 
-[`templates/CLAUDE.md`](./templates/CLAUDE.md) carries the rules that should be active in **every** session — the 5 immutable laws, Risk Lane classification, security and billing baselines — plus placeholders for your stack and current focus. The six skills stay lazy-loaded behind it.
+[`templates/CLAUDE.md`](./templates/CLAUDE.md) carries the rules that should be active in **every** session — the immutable laws, Risk Lane classification, security and billing baselines — plus placeholders for your stack. The skills stay lazy-loaded behind it.
 
 ```bash
 cp templates/CLAUDE.md YOUR_PROJECT/CLAUDE.md
 ```
-
-Then fill in the "Project-Specific Context" section at the bottom.
 
 ---
 
@@ -105,232 +126,73 @@ Then fill in the "Project-Specific Context" section at the bottom.
 
 Each `SKILL.md` starts with YAML frontmatter containing a `name` and a `description`. Claude reads those descriptions and loads a skill **only when the task matches** — you don't have to name the file.
 
-```yaml
----
-name: seguridad-saas
-description: >
-  Dual security shield for SaaS and AI: OWASP Top 10 Web (IDOR, Supabase RLS,
-  SSRF, no homebrew crypto) plus OWASP LLM Top 10 ... Use when touching auth,
-  sessions, tenant scoping, RLS policies, file storage, user-supplied URLs or
-  any input that reaches an LLM ...
----
-```
-
-In practice: ask for a Stripe webhook handler and `billing-monetizacion` loads itself. Touch an RLS policy and `seguridad-saas` loads. You can still force one explicitly:
+In practice: ask for a Stripe webhook handler and `saas-billing-unit-economics` loads itself. Touch an RLS policy and `saas-security-workflow` loads. Ask for a code review and `saas-adversarial-audit` loads. You can still force one explicitly:
 
 ```
-Use the seguridad-saas skill to review this endpoint.
+Use the saas-adversarial-audit skill to review this endpoint.
 ```
+
+If you are unsure which applies, start with `saas-project-kickoff`: it is the router.
 
 ---
 
 ## 📖 Skill Descriptions
 
-### 1. 🤖 Master Agent — Operating Constitution for AI Agents
+### 1. 🧭 SaaS Project Kickoff — Lifecycle Orchestrator
+Detects the real phase of a project instead of asking, invokes the specialised skills in order, and enforces the gates. **Hard rule:** debt from an earlier phase is resolved before advancing — Phase 2 is never built on an unclosed Phase 0. Keeps a versioned `PROJECT_STATE.md` so decisions are not re-litigated every session. Four modes: new project, recovery audit, new feature on a live product, live incident.
 
-> **Files:** [`skills/master-agent/SKILL.md`](./skills/master-agent/SKILL.md) · [`quick-ref.md`](./skills/master-agent/quick-ref.md)
+### 2. 🤖 SaaS Agent Rules — Operating Constitution
+The 6 immutable laws: atomic flow, zero TODOs, scope freeze, traceability in the same PR, immutability of finished code, and **the independent reviewer** — the model that builds does not review. Plus Risk Lanes (🟢🟡🔴), the StampHog auto-block, canonical model routing, and token-budget context discipline.
 
-The foundational "constitution" for any AI agent working on a SaaS codebase. A single reference that replaces brittle wiki docs with executable, enforceable rules.
+### 3. 🏗️ SaaS Architecture Blueprint — Phase 0
+The 12 irreversible decisions, each answered in writing with its cost of reversal: tenancy model, identity, ID strategy, entitlements, audit trail, migrations, serverless limits, cache isolation. Blocks scaffolding until they are closed. A user table without a tenant column is a stop condition, not a to-do.
 
-- **The Vibe-Coding Paradox**: Why 92% of engineers use AI daily but only 29% trust auto-generated code — and how to be in the 29%
-- **5 Immutable Laws**: Atomic flow (one module at a time), zero TODOs in code, scope freeze during development, traceability matrix updated in the same PR, immutability of finished modules
-- **"Fable Sandwich" orchestration**: Architect (plan) → Worker (code) → Auditor (review) — each role mapped to the right model tier
-- **Token-Budget-Aware context management**: Lazy loading of schemas and vector DBs, `CoD` (Chain of Draft) technique for reasoning models (68–86% token reduction with >95% accuracy)
-- **Canonical model routing**: Haiku for triage · Sonnet for daily dev · Opus for deep architecture · Fable for autonomous/audit mode
-- **Risk Lane system**: 🟢 Green (docs, CSS) · 🟡 Yellow (business logic) · 🔴 Red (Auth, Stripe, PII, migrations) — with StampHog auto-blocking for Red Lane PRs
-- **Adversarial self-correction**: "Attack your own conclusion" cycle before every PR — checking for memory leaks, RLS bypasses, billing rounding errors, and hallucinated dependencies
+### 4. 🛡️ SaaS Security Workflow — Doctrine
+OWASP Top 10 Web plus OWASP LLM Top 10 under NIST SP 800-218A. IDOR, Supabase RLS without `USING (true)`, SSRF blocking to private and metadata ranges, no homebrew crypto, MCP human-in-the-loop, slopsquatting checks. Commandments 11–13 added in v2: agent identity, permission-scoped RAG retrieval, signature verification before reading claims. Includes the multi-tenant cross-cache isolation matrix and EU AI Act Article 50.
 
----
+### 5. 🔎 SaaS Adversarial Audit — Detection
+Where the doctrine skills say *what must hold*, this one says *what to look for, in which file, with what verdict*. Eight stack-routed reference files — RAG multi-tenancy, Next.js RSC and middleware, tRPC and GraphQL, identity and OAuth, Prisma and Postgres, webhooks and cron, supply chain and DNS, autonomous agents — plus a deterministic scanner and a mandatory finding format.
 
-### 2. ✅ Definition of Done — The 14-Point Quality Gate
+### 6. ✅ SaaS Definition of Done — Quality Gate
+16 points covering contract, tests, cross-tenant isolation, server-side authorization, log sanitisation, observability, cost instrumentation, staging behind a flag, traceability, **a green adversarial scan**, and **an independent-reviewer audit for Red Lane modules**. Extra requirements per module type: Red Lane, UI, generative AI, and data ingestion.
 
-> **Files:** [`skills/definition-of-done/SKILL.md`](./skills/definition-of-done/SKILL.md) · [`quick-ref.md`](./skills/definition-of-done/quick-ref.md)
+### 7. 💳 SaaS Billing & Unit Economics
+Provision only on a cryptographically verified webhook — never on `success_url`. One idempotency key per charge. Strict test/live key isolation. The price never comes from the client. Cost instrumented per invocation with a $0.10 flag, monthly ARPU-minus-CPU margin review, hard spend caps, anti-chargeback protocol and dunning sequence.
 
-Replaces subjective "done" with a deterministic, audit-proof 14-point checklist. If a module doesn't pass all 14, it doesn't merge.
+### 8. ⚙️ SaaS Production Readiness
+13-layer traffic-light audit — one RED and there is no deploy. Pre-deploy checklist, smoke test on the real domain including mobile, rollback tested and timed under 60 seconds, backup **restore drill** executed and dated, alerts validated by causing a real staging error, and incident runbooks.
 
-**Universal DoD (all modules):**
-- **Contract & Design**: Public `index.ts` contract · published test doubles (mocks/stubs) · `context.md` with decisions and discarded alternatives
-- **Correctness**: ≥80% domain logic coverage · explicit failure-path tests (null, timeout, concurrent load) · contract tests for emitted events · ephemeral Scratch DBs (never shared dev/staging)
-- **Security**: Cross-tenant isolation test in CI · server-side-only extraction of `tenantId`/`userId` · zero credentials or PII in logs or HTTP responses
-- **Operations**: Structured JSON logs with `correlationId` · cost instrumented per function · deployed to staging behind a feature flag · traceability row closed with PR link
+### 9. 📑 SaaS Compliance Readiness
+Framework priority for the European market: GDPR → ISO 27001 → ENS for public sector → NIS2 by scope → SOC 2 only when a contract demands it. A 10-control readiness matrix answered with evidence, never intention; a reusable security-questionnaire master document; and the build-vs-buy audit that decides which subscriptions to replace with directed AI builds.
 
-**Additional requirements by module type:**
-- 🔴 **Red Lane** (Auth, Payments, PII, Migrations): Written threat model + adversarial test + mandatory human line-by-line review
-- 🖥️ **UI modules**: Full keyboard navigation (Tab/Enter/Esc, no focus traps) · WCAG 2.2 AA contrast (4.5:1 normal, 3:1 large text) · responsive at 360px · explicit loading/empty/error states · zero hardcoded strings (i18n)
-- 🤖 **Generative AI modules**: Visible AI disclosure · affirmative opt-in consent gate · indirect prompt injection test (malicious reviews, webhooks)
-- 🔌 **API/Webhook ingesters**: Tests against recorded real API responses · graceful degradation if third-party is down · idempotency guarantee
+### 10. 📈 SaaS Growth & GEO
+Acquisition aimed at AI agents, not only human searchers: server-rendered JSON-LD for the "Agentic 6", the public `/api/ai-spec.json` endpoint, the "Forge" no-budget B2B outreach doctrine, and the Meta anti-ban rules for WhatsApp Cloud API and Instagram automation.
 
 ---
 
-### 3. 🛡️ SaaS Security — Dual OWASP Shield
+## 🆕 What changed in v2.0.0
 
-> **Files:** [`skills/seguridad-saas/SKILL.md`](./skills/seguridad-saas/SKILL.md) · [`quick-ref.md`](./skills/seguridad-saas/quick-ref.md)
-
-The mandatory security standard for 2026 — combining classic web hardening with generative AI threat mitigation, under the **NIST SP 800-218A** corporate framework.
-
-**OWASP Top 10 Web (traditional layer):**
-- **IDOR prevention** `[LUPIN-RULE-001]`: `tenantId`/`userId` extracted exclusively from server-verified session tokens — never from URL params, headers, or request bodies
-- **Supabase RLS** `[LUPIN-RULE-002]`: No `USING (true)` policies — every policy validates `auth.uid()`. Views must use `WITH (security_invoker = true)`
-- **SSRF blocking** `[LUPIN-RULE-009]`: Active network filter on user-supplied URLs — blocks `127.0.0.1`, `10.0.0.0/8`, `169.254.169.254` (cloud metadata)
-- **Zero homebrew crypto**: No custom JWT parsers or hashing functions — always delegate to proven providers (Supabase Auth, Clerk, Better Auth)
-
-**OWASP LLM Top 10 (generative AI layer):**
-- **Prompt injection** (direct & indirect): All external input (reviews, emails, webhooks) treated as hostile — agents operate read-only under least privilege
-- **Excessive agency**: No autonomous destructive writes without human confirmation
-- **Token DDoS**: Rate limiting per IP + per authenticated user on every LLM-touching endpoint, returning `429` when exceeded
-
-**Multi-tenant isolation matrix:**
-
-| Layer | Risk | Directive |
-|---|---|---|
-| Redis / LangCache | 🔴 High | `tenant:${tenant_id}:cache_key` prefix — mandatory |
-| Vector DB | 🔴 High | `tenant_id` metadata filter applied **before** similarity search |
-| Storage / Files | 🟡 Medium | `/tenants/${tenant_id}/files/` paths + 60-second signed URLs |
-| WebSockets / Event Bus | 🟡 Medium | JWT-scoped subscriptions per tenant |
-
-**EU AI Act — Article 50 (in force August 2026):**
-- Visible, non-removable AI disclosure on all synthetic content (official EU iconography)
-- Explicit opt-in consent gate — pre-checked boxes are strictly forbidden
-- Append-only generation log: `timestamp`, `model_name`, `input_hash`, `output_hash`, `user_session_id` — 3-year minimum retention
-
-**StampHog Protocol**: CI reviewer scans every PR diff for Red Lane keywords (`auth`, `token`, `password`, `stripe`, `billing`, `pii`, `migration`, `rls`, `rbac`). Any match → auto-merge blocked → mandatory senior security review.
+- **Merged two diverging sets into one.** The lifecycle plugin (orchestrator, blueprint, security workflow, billing, production readiness) and the original six topic skills are now a single versioned source of truth. The v1 topic files are preserved under [`docs/legacy/`](./docs/legacy/).
+- **New:** `saas-adversarial-audit` — 40+ failure patterns of AI-generated code with stack-routed auditor prompts and `quick-scan.sh`.
+- **New:** `saas-compliance-readiness` — EU-first certification readiness and the build-vs-buy audit.
+- **Law 6 added** to the agent constitution: the model that builds does not review.
+- **DoD grew from 14 to 16 points**: green adversarial scan, and an independent-reviewer audit on Red Lane modules.
+- **Commandments 11–13 added** to the security workflow: agent identity, permission-scoped RAG, signature verification before reading claims.
+- **Renamed** for a consistent `saas-*` namespace: `master-agent` → `saas-agent-rules`, `definition-of-done` → `saas-definition-of-done`, `crecimiento-growth` → `saas-growth-geo`.
 
 ---
 
-### 4. ⚙️ Ops & Deploy — 13-Layer Production Gate
+## ✅ Validation
 
-> **Files:** [`skills/ops-deploy/SKILL.md`](./skills/ops-deploy/SKILL.md) · [`quick-ref.md`](./skills/ops-deploy/quick-ref.md)
-
-No deployment reaches production with a single **RED** item. Each layer is evaluated as Green / Yellow / Red:
-
-`Frontend` → `APIs` → `Database` → `Auth` → `Hosting` → `Cloud` → `CI/CD` → `Security` → `Rate Limiting` → `Caching` → `Load Balancing` → `Error Tracking` → `Availability & Backups`
-
-Remediation priority for RED items: **1. Revenue loss** → **2. Data exposure** → **3. Legal/regulatory breach**
-
-**Hybrid Serverless ↔ Container architecture** — migrate to Docker workers + message queue (Redis/SQS) when:
-- Execution time > 30s (batch embeddings, PDF processing, audio/video transcription)
-- Persistent connections needed (WebSockets, IoT streaming)
-- Intensive scheduled cron jobs calling LLM APIs
-
-Pattern: `Lightweight Serverless API → Message Queue (Redis/SQS) → Docker Worker (non-root user)`
-
-**Mandatory 5-step Smoke Test** after every production deploy (incognito window):
-1. Register a real account with a test email
-2. Confirm email arrival and auth link works
-3. Execute the core business flow (create / edit / delete)
-4. If billing: pay minimum amount and verify webhook activates access
-5. Logout → re-login → verify state persistence
-
-**Incident Runbook**: Contain (disable compromised endpoint / activate maintenance mode) → Rebuild (trace with Sentry + structured logs) → Communicate (honest ETA + post-mortem) → Prevent (add adversarial test to CI)
-
----
-
-### 5. 💳 Billing & Monetization — Stripe Safety Rules
-
-> **Files:** [`skills/billing-monetizacion/SKILL.md`](./skills/billing-monetizacion/SKILL.md) · [`quick-ref.md`](./skills/billing-monetizacion/quick-ref.md)
-
-Every dollar charged through this system is governed by four non-negotiable pillars and a continuous unit economics monitor.
-
-**4 Golden Rules of Stripe billing:**
-1. **Cryptographic webhook verification**: `stripe.webhooks.constructEvent(rawBody, signature, STRIPE_WEBHOOK_SECRET)` — no exceptions. Invalid signatures return `400`
-2. **Async-only provisioning**: Credits, plans, and roles activate exclusively after the verified webhook event (`checkout.session.completed`, `invoice.paid`) — never on redirect
-3. **Idempotency key per charge**: UUID in every `Stripe-Idempotency-Key` header to prevent double-billing on network retries
-4. **Absolute key isolation**: `sk_test_...` stays in dev/staging; `sk_live_...` never leaves production environment variables
-
-**Unit Economics for AI — the $0.10 Circuit Breaker:**
-- Instrument every LLM-touching function with OpenTelemetry / Helicone / Langfuse
-- Automatic infrastructure alert if any interactive user-facing invocation exceeds **$0.10 USD**
-- Monthly margin audit: `Margin = ARPU − CPU (tokens + APIs + storage per user)` — any tier running at negative margin triggers immediate pricing review
-
-**Anti-chargeback & Dunning (up to 20% of cancellations are involuntary):**
-- Transparent card descriptor (e.g., `YOURAPP.COM*PRO`) — not the legal entity name
-- Detailed receipt emails + 1-click cancellation visible in the customer portal
-- Auto-pause account on `charge.dispute.created` webhook — collects access logs as dispute evidence
-- Stripe Smart Retries → 14-day pre-expiry email sequence → 7-day grace period with partial access before service termination
-
-**International billing**: all timestamps in `TIMESTAMPTZ` (UTC) · Stripe adaptive multi-currency pricing · Stripe Tax for VAT/GST/Sales Tax automation
-
----
-
-### 6. 📈 Growth — Agentic Acquisition & GEO
-
-> **Files:** [`skills/crecimiento-growth/SKILL.md`](./skills/crecimiento-growth/SKILL.md) · [`quick-ref.md`](./skills/crecimiento-growth/quick-ref.md)
-
-In 2026, acquisition traffic comes from AI buying agents — not just humans doing Google searches. If your SaaS isn't optimized for synthetic discovery, it doesn't exist.
-
-**GEO — Generative Engine Optimization (the "Agentic 6"):**
-
-Server-side rendered (SSR) JSON-LD Schema.org markup with >95% fill rate — AI crawlers don't execute late-injected JavaScript:
-
-| Entity | Purpose |
-|---|---|
-| `Product` | SKU, GTIN-14, unique global identifiers |
-| `Offer` | Price, currency, `https://schema.org/InStock` URI |
-| `AggregateRating` | Aggregate score used as AI quality filter |
-| `Review` | Individual reviews for semantic context |
-| `FAQPage` | Direct Q&A blocks for natural language queries |
-| `ReturnPolicy` | Risk evaluation signal for autonomous recommendation agents |
-
-**`/api/ai-spec.json` endpoint** — public, machine-readable product spec for AI buying agents: pricing tiers, functional capabilities, security certifications (SOC 2, GDPR), uptime SLAs, and data export options.
-
-**"The Forge" B2B doctrine** — for founders launching without budget or network:
-1. Target **high-pain niches** (agencies, medical clinics, law firms, accounting) where manual errors cost real money daily
-2. Sell the **outcome**, not the technology — "your monthly report goes from 3 days to 5 minutes, saving $1,500"
-3. Send a **3-minute Loom/Tella demo** personalised to their specific business instead of requesting a 30-minute meeting
-4. Provide a **1-click trial link** — let them experience value with their own data before asking for payment details
-
-**Meta anti-ban rules:**
-- **WhatsApp**: Official Business Cloud API only — QR-based senders get permanently banned with no appeal
-- **Instagram automation** (7 rules): max 3 replies per execution / 36 per hour · random 20–40s delay between comments · LLM-generated unique reply per user · comment ID deduplication in DB · hard stop on `429` errors (5-minute cooldown) · ignore own-account comments · **zero links in public comments** (redirect via DMs only)
-
----
-
-## 🗂️ Repository Structure
-
-```
-saas-claude-skills/
-├── .claude-plugin/
-│   ├── plugin.json                    ← plugin manifest
-│   └── marketplace.json               ← makes this repo its own marketplace
-│
-├── skills/
-│   ├── master-agent/
-│   │   ├── SKILL.md                   ← full context (frontmatter + rules)
-│   │   └── quick-ref.md               ← compact checklists for active coding
-│   ├── definition-of-done/
-│   ├── seguridad-saas/
-│   ├── ops-deploy/
-│   ├── billing-monetizacion/
-│   └── crecimiento-growth/
-│
-├── templates/
-│   └── CLAUDE.md                      ← drop-in project template
-│
-├── README.md                          ← you are here
-├── CONTRIBUTING.md
-└── LICENSE                            ← MIT
+```bash
+python3 scripts/validate.py
+bash -n skills/saas-adversarial-audit/scripts/quick-scan.sh
 ```
 
----
-
-## 🤝 Contributing
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on:
-- Adding new skills
-- Improving existing ones
-- Translating skills to other languages
-- Reporting outdated information
+The validator guards the two failure modes that have actually shipped from this repository: control characters buried in published markdown, and a `SKILL.md` without frontmatter (which makes the skill inert wherever it sits). It also checks that both layers exist for every skill and that the manifests are valid JSON. CI runs it on every push and pull request.
 
 ---
 
 ## 📄 License
 
-[MIT](./LICENSE) — Free to use, modify and distribute. Attribution appreciated.
-
----
-
-## ⭐ If this helps you...
-
-Give it a star on GitHub! It helps other vibe-coders discover these standards.
-
-Made with 🔥 by vibe-coders who learned the hard way that speed without rigor creates invisible debt.
+MIT — see [LICENSE](./LICENSE).

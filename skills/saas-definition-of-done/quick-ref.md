@@ -1,13 +1,14 @@
 # ✅ Definition of Done — Quick Reference
 
-## 🚨 Top 3 (if you read nothing else, read this)
+## 🚨 Top 4 (if you read nothing else, read this)
 1. **Cross-tenant isolation test in CI.** If the module touches DB, cache, storage, or queues — a test must attempt access from another tenant and **fail explicitly**.
 2. **Domain logic coverage ≥ 80%.** Test business rules, not getters or UI components.
-3. **Zero secrets or PII in logs.** Sanitize all HTTP responses and log output — no stack traces, tokens, or personal data exposed.
+3. **The model that built it does not review it.** Red Lane audits run in a fresh session, a subagent, or a different model — never the authoring session.
+4. **Zero secrets or PII in logs.** Sanitize all HTTP responses and log output — no stack traces, tokens, or personal data exposed.
 
 ---
 
-## 📋 Universal DoD Checklist (14 Points)
+## 📋 Universal DoD Checklist (16 Points)
 
 ### Contract & Design
 - [ ] Public entry point (e.g. index.ts) exports only allowed interfaces
@@ -30,6 +31,10 @@
 - [ ] Cost instrumented per invocation (if module calls LLMs or paid APIs)
 - [ ] Deployed to staging behind a feature flag
 - [ ] Traceability row closed with PR link and test IDs
+
+### Adversarial Gate
+- [ ] `saas-adversarial-audit/scripts/quick-scan.sh` green — zero CRITICAL patterns, output pasted in the PR
+- [ ] Red Lane only: stack auditor prompts run by an **independent reviewer** (fresh session, subagent, or different model), findings report linked
 
 ---
 

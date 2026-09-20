@@ -63,8 +63,12 @@ For the full operating rules, orchestration philosophy, and context management s
 → Read [`SKILL.md`](./SKILL.md)
 
 For domain-specific rules, lazy-load the relevant skill:
-- Security → `seguridad-saas/`
-- Quality gate → `definition-of-done/`
-- Deploy & ops → `ops-deploy/`
-- Billing → `billing-monetizacion/`
-- Growth → `crecimiento-growth/`
+- Orchestration and phase gates → `saas-project-kickoff/`
+- Phase 0 decisions → `saas-architecture-blueprint/`
+- Security doctrine → `saas-security-workflow/`
+- Code-level audit → `saas-adversarial-audit/`
+- Quality gate → `saas-definition-of-done/`
+- Deploy & ops → `saas-production-readiness/`
+- Billing → `saas-billing-unit-economics/`
+- Certification readiness → `saas-compliance-readiness/`
+- Growth → `saas-growth-geo/`

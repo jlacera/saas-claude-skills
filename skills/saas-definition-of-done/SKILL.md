@@ -1,11 +1,11 @@
 ---
-name: definition-of-done
+name: saas-definition-of-done
 description: >
-  The 14-point universal Definition of Done that decides whether a module may
+  The 16-point universal Definition of Done that decides whether a module may
   merge: public contract, published test double, context.md, 80% domain
   coverage, failure-path tests, cross-tenant isolation test in CI, no secrets or
   PII in logs, structured JSON logs, cost instrumentation, staging behind a
-  feature flag, traceability row closed. Adds stricter gates for Red Lane, UI,
+  feature flag, traceability row closed, adversarial grep scan green, and an independent-reviewer audit for Red Lane modules. Adds stricter gates for Red Lane, UI,
   generative-AI and webhook modules. Use before marking anything done, before
   opening or merging a PR, or when the user asks "is this finished?", "esta
   terminado?", "definition of done", "DoD", or what the quality gate requires.
@@ -26,11 +26,11 @@ Este documento rige la transición de estado de cualquier módulo en desarrollo.
 ### Matriz de Estados de un Módulo:
 *   **PENDIENTE:** No se ha iniciado el desarrollo. Puede contener notas de arquitectura o de diseño preliminar.
 *   **EN CURSO:** El módulo está activamente en construcción. Si un desarrollo lleva más de **dos semanas** en este estado, es un indicador de alarma en el alcance. El módulo se divide inmediatamente en dos piezas independientes.
-*   **TERMINADO:** El módulo satisface el 100% de los 14 puntos del Definition of Done (DoD) Universal, se encuentra desplegado en staging y su fila correspondiente en la matriz de trazabilidad está cerrada con un enlace al Pull Request y a las pruebas de éxito.
+*   **TERMINADO:** El módulo satisface el 100% de los 16 puntos del Definition of Done (DoD) Universal, se encuentra desplegado en staging y su fila correspondiente en la matriz de trazabilidad está cerrada con un enlace al Pull Request y a las pruebas de éxito.
 
 ---
 
-## SECCIÓN II: CHECKLIST DEL DEFINITION OF DONE UNIVERSAL (14 PUNTOS)
+## SECCIÓN II: CHECKLIST DEL DEFINITION OF DONE UNIVERSAL (16 PUNTOS)
 
 Toda tarea o funcionalidad debe marcar conscientemente cada una de estas comprobaciones antes de solicitar su fusión a ramas protegidas:
 
@@ -55,6 +55,8 @@ Toda tarea o funcionalidad debe marcar conscientemente cada una de estas comprob
 12. [ ] **Coste Instrumentado:** Si el módulo realiza consultas a LLMs, procesamiento pesado o llamadas a APIs pagadas, calcula su coste de ejecución promedio. Si no se puede responder "cuánto cuesta invocar esto", no se considera terminado.
 13. [ ] **Despliegue en Staging Detrás de Feature Flag:** Código integrado en el entorno de pre-producción y oculto bajo una bandera de características para pruebas controladas en la nube.
 14. [ ] **Fila Cerrada en Matriz de Trazabilidad:** Actualización inmediata de la línea de trazabilidad con el enlace directo al Pull Request de GitHub, la fecha y los tests correspondientes.
+15. [ ] **Escaneo Adversarial en Verde:** `saas-adversarial-audit/scripts/quick-scan.sh` ejecutado desde la raíz del repositorio con cero patrones CRÍTICOS. La salida literal se adjunta en el PR. Un patrón crítico bloquea el merge; solo lo desbloquea una firma humana nombrada y fechada que acepte el riesgo por escrito.
+16. [ ] **Auditoría del Revisor Independiente:** para módulos de Carril Rojo, los prompts auditores aplicables al stack (`saas-adversarial-audit/references/`) se han ejecutado en una sesión, subagente o modelo **distinto** del que escribió el código, y el informe de hallazgos está enlazado en el PR. Los patrones que no se pudieron verificar se listan explícitamente: un patrón no verificado nunca cuenta como superado.
 
 ---
 

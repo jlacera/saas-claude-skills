@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "saas-claude-skills",
-      "description": "Six lazy-loaded skills covering agent operating rules, definition of done, SaaS + LLM security, deployment gates, Stripe billing safety, and agentic growth.",
+      "description": "Ten lazy-loaded skills: lifecycle orchestration with gates, Phase 0 architecture, agent operating rules, security doctrine, adversarial audit of AI-generated code, definition of done, billing safety, deploy gates, EU compliance readiness, and agentic growth.",
       "source": "./",
       "category": "productivity"
     }

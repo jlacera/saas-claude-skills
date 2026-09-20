@@ -1,5 +1,5 @@
 ---
-name: crecimiento-growth
+name: saas-growth-geo
 description: >
   Acquisition aimed at AI agents, not only human searchers: Generative Engine
   Optimization with server-rendered JSON-LD (Product, Offer, AggregateRating,

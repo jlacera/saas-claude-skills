@@ -60,3 +60,9 @@ curl -sI https://staging.ejemplo.com | head -3   # buscar 404 de plataforma: "no
 **Síntoma.** El agente o el backend obtiene URLs a partir de entrada del usuario. Un atacante entrega una URL que apunta al servicio de credenciales de la nube. El proceso, que corre dentro de la infraestructura, la obtiene y devuelve las credenciales temporales del rol de ejecución.
 
 **Parche canónico.** Lista negra de rangos resueltos, no de cadenas: `127.0.0.0/8`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `169.254.0.0/16`, `::1`, `fc00::/7`. La validación se hace **después** de resolver el DNS y se repite tras cada redirección, porque un dominio público puede resolver a una IP privada y una redirección puede llevar allí. Solo esquemas `http` y `https`. Preferible: proxy de salida dedicado con lista blanca de destinos.
+
+## S6 — Procedencia firmada tomada como prueba de seguridad (ALTO)
+
+**Síntoma.** El pipeline acepta cualquier versión nueva porque trae atestación SLSA/Sigstore válida. En 2026 las oleadas Shai-Hulud (TanStack, 11-05-2026) y CHAINDROP (keyv y más de 400 paquetes, 04-08-2026) publicaron malware con procedencia válida tras robar el token OIDC del propio workflow.
+
+**Parche canónico.** Lockfile congelado (`npm ci`, `pnpm install --frozen-lockfile`); edad mínima de publicación (`minimumReleaseAge` 1440 minutos en pnpm, `min-release-age` en npm 11.10+); scripts de instalación desactivados salvo lista blanca; Actions fijadas por SHA y trusted publishing atado a rama y workflow concretos; los tokens npm clásicos ya no existen (granulares, 7 días por defecto). Verificar los nombres sugeridos por IA contra el registro antes de instalar (slopsquatting: cerca del 20% de los paquetes que alucina un modelo no existen, y los atacantes los registran).

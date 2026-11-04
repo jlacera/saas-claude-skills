@@ -22,7 +22,7 @@ Las skills `saas-security-workflow` (doctrina y mandamientos) y `saas-definition
 
 ## 0. PROTOCOLO DE USO
 
-1. **Escaneo determinista primero.** Ejecutar `scripts/quick-scan.sh` desde la raíz del repositorio. Tarda segundos y encuentra 15 de los 40 patrones sin ambigüedad.
+1. **Escaneo determinista primero.** Ejecutar `scripts/quick-scan.sh` (ruta relativa al directorio base de esta skill) con el repositorio auditado como directorio de trabajo. Tarda segundos y encuentra 15 de los 40 patrones sin ambigüedad.
 2. **Enrutar por stack.** Identificar qué tecnologías usa el proyecto y cargar **solo** las referencias aplicables de la tabla del §1. No cargar las ocho.
 3. **Ejecutar el prompt auditor** de cada patrón aplicable contra los archivos reales, no contra la memoria de la conversación.
 4. **Emitir veredicto por hallazgo** con el formato obligatorio del §2.

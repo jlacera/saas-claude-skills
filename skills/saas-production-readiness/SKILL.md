@@ -28,7 +28,7 @@ Esta skill tiene tres modos. Identificar cuál aplica antes de empezar:
 |---|---|---|
 | **A — Auditoría de preparación** | "¿estamos listos para producción?", go-live, primer lanzamiento | §1 |
 | **B — Compuerta de deploy** | Cada despliegue, incluidos los rutinarios | §2–§4 |
-| **C — Incidente en vivo** | Caída, error masivo, ataque, factura disparada | §7 |
+| **C — Incidente en vivo** | Caída, error masivo, ataque, factura disparada | §6 |
 
 **Posición en el ciclo:** última fase. Presupone que `saas-architecture-blueprint`, `saas-security-workflow` y `saas-billing-unit-economics` ya se ejecutaron. Si no, decirlo explícitamente antes de continuar: auditar producción sobre una arquitectura sin revisar produce un informe falso.
 
@@ -79,9 +79,14 @@ Todo lo demás va después. Un fallo de accesibilidad importa; no importa tanto 
 ### Configuración de entorno
 
 - [ ] `.env.example` actualizado con **todos** los nombres de clave (sin valores) en la raíz.
-- [ ] Variables configuradas en el host para **todos los entornos**: producción, preview y staging. *El 80% de los "funciona en local pero en producción truena" son variables faltantes o con espacios accidentales.*
+- [ ] Variables configuradas en el host para **todos los entornos**: producción, preview y staging. *La mayoría de los "funciona en local pero en producción truena" son variables faltantes o con espacios accidentales.*
 - [ ] Cero URLs hardcodeadas. Nada de `localhost:3000` ni `127.0.0.1`; todo por variable.
 - [ ] Secretos de producción **distintos** de los de desarrollo. Especialmente claves de pasarela de pago.
+- [ ] GitHub Actions fijadas por SHA (la política de organización permite bloqueo y SHA pinning desde agosto de 2025), permisos de `GITHUB_TOKEN` mínimos, sin secretos heredados entre entornos.
+- [ ] Dependencias: `npm ci` / `--frozen-lockfile`, edad mínima de publicación (`minimumReleaseAge` en pnpm, `min-release-age` en npm 11.10+) y scripts de instalación desactivados salvo lista blanca. La procedencia firmada ya no prueba seguridad: las oleadas Shai-Hulud de 2026 publicaron con atestaciones válidas.
+- [ ] Protección de despliegue activa en previews (Vercel la activa por defecto en proyectos nuevos) y *rolling release* o canario donde el plan lo permita.
+- [ ] Presupuesto de gasto LLM en dólares por clave o proyecto (AI Gateway de Vercel o Cloudflare, o propio) con bloqueo al 100% y alertas al 75% y al 90%.
+- [ ] Monitorización de agentes IA en Sentry (auto-instrumenta Anthropic, OpenAI, Vercel AI SDK, LangChain) o trazas OpenTelemetry `gen_ai.*` (convenciones aún en desarrollo: fijar versión).
 - [ ] `.env` en `.gitignore` y ausente del histórico de git: `git log -p | grep -iE "sk-|api_key|secret|password"`.
 
 ### Validación de build
@@ -191,9 +196,9 @@ En `localhost` la pasarela corre en modo test, los emails van a buzones de prueb
 1. Registro con un correo real (`tu+test@gmail.com`).
 2. Verificar que **llega** el email de confirmación y que el enlace **funciona**.
 3. Iniciar sesión con la cuenta nueva y recorrer el flujo core completo: crear, editar, borrar.
-4. Si hay cobros: **pagar 1 € real** (o con clave live de prueba) y validar que el webhook desbloquea el acceso.
+4. Si hay cobros: **pagar 1 € real** (y reembolsarlo después) y validar que el webhook desbloquea el acceso.
 5. Cerrar sesión, volver a entrar y validar que el estado persiste.
-6. Repetir el flujo core desde móvil. La mitad del tráfico real llega desde ahí.
+6. Repetir el flujo core desde móvil si el producto se usa desde móvil.
 
 > **Si cualquier paso falla o simplemente "se siente raro", no se lanza.** Aunque la aplicación se vea perfecta.
 
@@ -204,7 +209,7 @@ En `localhost` la pasarela corre en modo test, los emails van a buzones de prueb
 Todo desarrollador despliega bugs. La diferencia entre un susto y una crisis es el tiempo entre *"se rompió"* y *"ya está arreglado"*.
 
 - **Vercel / Netlify:** Deployments → seleccionar el deploy anterior funcional → *Promote to Production*.
-- **Railway / Render:** despliegues asociados a commits → `git revert <commit-id>` + `git push`.
+- **Railway / Render:** *Rollback* al deploy anterior desde el panel (redespliega la imagen ya construida). `git revert` + `git push` es el camino lento: implica un build completo.
 - **Contenedores:** mantener la imagen anterior etiquetada y disponible; rollback = cambiar el tag y redesplegar.
 - **Base de datos:** migraciones reversibles por diseño, o plan de reversión manual documentado y probado.
 

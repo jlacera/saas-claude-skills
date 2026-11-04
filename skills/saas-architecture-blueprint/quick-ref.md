@@ -9,7 +9,7 @@
 
 ## 📋 The 12 irreversible decisions
 
-Tenancy model · Identity and auth provider · ID strategy (UUIDv7 vs sequential) · Entitlements and plan limits · Audit trail · Migration strategy · Serverless execution limits · Cache isolation · Data residency · Background jobs and queues · Observability from the start · Repo and module boundaries.
+D1 Tenancy model · D2 Identity: user ≠ organization · D3 Roles and permissions (RBAC) · D4 ID format (UUIDv7 vs sequential) · D5 Entitlements and plan limits · D6 Audit trail and deletion · D7 Migration strategy · D8 Time zone, currency and localization · D9 Serverless ↔ container boundary · D10 Multi-tenant isolation in shared layers (cache, vectors, storage) · D11 Pre-wired scale traps · D12 Allowed complexity level (anti-over-engineering gate).
 
 Each answer records: **the decision · why · what it costs to reverse · Risk Lane assigned**.
 

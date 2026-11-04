@@ -2,14 +2,14 @@
 
 ## 🚨 Top 3 (if you read nothing else, read this)
 1. **If AI agents can't read your product page, you don't exist.** Server-side render JSON-LD Schema.org markup — AI crawlers don't execute client-side JavaScript.
-2. **Sell the outcome, not the technology.** "Your monthly report goes from 3 days to 5 minutes" beats "we use GPT-4o with RAG pipelines".
+2. **Sell the outcome, not the technology.** "Your monthly report goes from 3 days to 5 minutes" beats "we use an LLM with RAG pipelines".
 3. **Zero links in public Instagram comments.** Meta's spam filters flag link-heavy comment bots instantly — redirect via DMs only.
 
 ---
 
 ## 🔍 GEO — Generative Engine Optimization
 
-### The "Agentic 6" (SSR JSON-LD Markup)
+### The essential JSON-LD (SSR, matching the visible page)
 
 Must be **server-side rendered** in the HTML response — not injected via client JS:
 
@@ -22,12 +22,12 @@ Must be **server-side rendered** in the HTML response — not injected via clien
 | FAQPage | Structured Q&A — matches natural language queries | > 95% |
 | ReturnPolicy | Return/refund terms — risk signal for recommendation agents | > 95% |
 
-### /api/ai-spec.json Endpoint
+### Agent-readable surface (remote MCP server with OAuth, `/.well-known/ucp` if there is checkout, visible pricing with matching schema; `llms.txt` and ad-hoc JSON files are not read by agents)
 
 Public, machine-readable product spec containing:
 - [ ] Pricing tiers and billing schemes
 - [ ] Functional capabilities and limits
-- [ ] Security certifications (SOC 2, GDPR, ISO 27001)
+- [ ] Security certifications: only issued ones, with certificate number and date
 - [ ] Uptime SLAs and data export options
 
 ---
@@ -39,7 +39,7 @@ For founders launching without budget or network:
 | Step | Action |
 |------|--------|
 | 1 | **Target high-pain niches** — sectors where manual errors cost real daily money (agencies, clinics, law firms, accounting) |
-| 2 | **Sell the outcome** — "3 days → 5 minutes, saving ,500/month" — never mention the tech stack |
+| 2 | **Sell the outcome** — "3 days → 5 minutes, saving them real money every month" — never mention the tech stack |
 | 3 | **3-minute video demo** — personalized Loom/Tella showing their own business problem being solved — not a 30-minute meeting request |
 | 4 | **1-click trial link** — let them experience value with their own data before asking for payment info |
 
@@ -66,5 +66,5 @@ For founders launching without budget or network:
 
 ## 📎 Deep Context
 
-For the full GEO implementation guide, ai-spec.json schema, and Meta API configuration:
+For the full GEO implementation guide, agent-readable surface, and Meta API configuration:
 → Read [SKILL.md](./SKILL.md)

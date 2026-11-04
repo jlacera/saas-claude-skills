@@ -10,7 +10,7 @@ description: >
   any SaaS project, and when the user says "nuevo proyecto", "quiero crear un
   SaaS", "vamos a empezar", "arrancamos", "kickoff", "de cero", "que hago
   primero", "en que fase estoy", "revisa mi proyecto", "audita el proyecto
-  completo", "quiero hacerlo bien" or "no quiero repetir errores. Skill content
+  completo", "quiero hacerlo bien" or "no quiero repetir errores". Skill content
   is in Spanish.
 ---
 
@@ -69,8 +69,8 @@ Comprobaciones concretas a ejecutar cuando hay acceso al repositorio:
 ```bash
 ls docs/adr/ 2>/dev/null | wc -l          # ¿hay decisiones documentadas?
 ls CLAUDE.md .mcp.json .env.example 2>/dev/null  # ¿estructura canónica?
-grep -rl "tenant_id\|org_id" --include="*.sql" --include="*.prisma" . | head
-grep -rl "stripe\|paddle\|lemonsqueezy" --include="*.ts" --include="*.py" . | head
+grep -rl "tenant_id\|org_id" --include="*.sql" --include="*.prisma" --include="*.ts" --include="*.py" --exclude-dir=node_modules --exclude-dir=.git . | head  # cubre Drizzle y SQLAlchemy
+grep -rl "stripe\|paddle\|lemonsqueezy" --include="*.ts" --include="*.py" --exclude-dir=node_modules --exclude-dir=.git . | head
 git log --oneline | wc -l                  # madurez del repo
 ```
 
@@ -113,7 +113,7 @@ Un gate no se supera por consenso ni por prisa. Se supera con evidencia.
 - [ ] Auditoría IDOR: ningún recurso accesible por ID sin comprobar propiedad en servidor.
 - [ ] Histórico de git limpio de secretos.
 - [ ] Linter y tipado estricto en CI, sin supresiones.
-- [ ] `saas-adversarial-audit/scripts/quick-scan.sh` sin patrones CRÍTICOS.
+- [ ] `quick-scan.sh` de `saas-adversarial-audit` (ejecutado con el repo auditado como directorio de trabajo) sin patrones CRÍTICOS.
 - [ ] Prompts auditores del stack ejecutados por un revisor independiente (sesión, subagente o modelo distinto del autor) en todo módulo de Carril Rojo.
 
 **Si falla:** no se toca código de pagos. Un fallo de autorización con pagos activos convierte un bug en un fraude.

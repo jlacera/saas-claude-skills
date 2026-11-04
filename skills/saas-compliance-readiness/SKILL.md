@@ -6,7 +6,7 @@ description: >
   the European market, plus the build-versus-buy audit that decides which SaaS
   subscriptions a client should replace with directed AI builds. Use when an
   enterprise deal asks for a certification, when the user says "ISO 27001",
-  "ENS", "SOC 2", "NIS2", "cuestionario de seguridad", "due diligence",
+  "ENS", "SOC 2", "NIS2", "GDPR", "AI Act", "CRA", "Data Act", "cuestionario de seguridad", "due diligence",
   "auditoria de cliente", "cumplimiento", or when scoping what to build instead
   of buy. Skill content is in Spanish.
 ---
@@ -34,6 +34,19 @@ No todos los marcos pesan igual según quién compra. Elegir el equivocado es ga
 | **SOC 2 Type II** | Solo si el comprador es estadounidense o filial de uno | Ventana de observación + auditor CPA |
 
 > **Criterio.** Para un SaaS español que vende en España y la UE, el orden es GDPR → ISO 27001 → ENS si hay sector público → NIS2 si aplica por ámbito → SOC 2 solo cuando lo exija un contrato concreto. Perseguir SOC 2 primero porque aparece en los blogs anglosajones es invertir en el sello equivocado.
+
+### Calendario normativo vigente (comprobado el 2026-11-04; verificar antes de citarlo a un cliente)
+
+| Norma | Estado | Fecha que manda |
+|---|---|---|
+| **AI Act** tras el Ómnibus digital (Reg. UE 2026/1744, en vigor 27-07-2026) | El Art. 50 (transparencia) aplica desde el 02-08-2026; solo el marcado legible por máquina del Art. 50(2) tiene gracia hasta el 02-12-2026 para sistemas ya en mercado | Alto riesgo Anexo III: 02-12-2027; Anexo I: 02-08-2028. Directrices del Art. 50 (20-07-2026) y Código de buenas prácticas de marcado (10-06-2026): metadatos firmados más marca de agua imperceptible como mínimo para contenido difundido en línea |
+| **GDPR** | Sin cambios: el Ómnibus de datos sigue en tramitación (mandato del Consejo del 21-10-2026, propone 96 h de notificación y umbral más alto; aún no es ley) | Brecha: 72 h (Art. 33). Guías EDPB 2026 de anonimización (02/2026) y de scraping para IA generativa (03/2026); AEPD sobre IA agéntica (feb. 2026) |
+| **NIS2 en España** | Sin transponer al BOE; la Comisión llevó a España ante el TJUE el 08-07-2026. Sin régimen sancionador nacional todavía, pero el comprador enterprise ya pide la evidencia | Directiva: alerta temprana 24 h, notificación 72 h, informe final 1 mes |
+| **Cyber Resilience Act** | Notificación de vulnerabilidades explotadas e incidentes graves obligatoria desde el 11-09-2026 (plataforma única de ENISA: 24 h / 72 h / 14 días). Un SaaS puro queda fuera salvo que sea el procesamiento remoto imprescindible de un producto con elementos digitales | Resto de obligaciones: 11-12-2027 |
+| **Data Act** | Aplicable desde el 12-09-2025: cambio de proveedor con preaviso máximo de 30 días, transición de 30 días y asistencia de salida en contrato | Cargos por cambio prohibidos desde el 12-01-2027 (hasta entonces solo a coste) |
+| **ISO 27001** | Solo versión 2022; los certificados 2013 caducaron el 31-10-2025 | ISO/IEC 42001 (gestión de IA) adoptada como norma EN en 2026, no armonizada bajo el AI Act |
+| **SOC 2** | Criterios 2017 con puntos de enfoque 2022; borrador AICPA (oct. 2026) con criterios de IA | Entraría en vigor para encargos desde el 31-12-2027 |
+| **eIDAS 2** | Cada Estado debe ofrecer la cartera EUDI | 24-12-2026; aceptación obligatoria por relying parties privadas hacia finales de 2027 |
 
 ---
 

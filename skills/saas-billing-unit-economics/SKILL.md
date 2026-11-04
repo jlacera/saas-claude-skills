@@ -6,7 +6,7 @@ description: >
   mandatory subscription events, the anti-chargeback protocol, dunning, and
   cost-per-invocation instrumentation with a $0.10 flag. Blocks the move from
   test to live keys without named human verification. Use when the user says
-  "Stripe", "pagos", "cobrar", "checkout", "suscripcion", "pricing", "webhook",
+  "Stripe", "pagos", "cobrar", "checkout", "suscripcion", "pricing", "webhook de pagos",
   "facturacion", "billing", "reembolso", "chargeback", "disputa", "churn",
   "trial", "upgrade", "prorrateo", "IVA", "unit economics", "margen", "coste por
   usuario", "limites de plan", "cuota" or "creditos". Skill content is in
@@ -101,10 +101,16 @@ export async function POST(req: Request) {
   const alreadyProcessed = await db.webhookEvents.findUnique({ where: { id: event.id } });
   if (alreadyProcessed) return new Response("OK", { status: 200 });
 
-  await db.$transaction(async (tx) => {
-    await tx.webhookEvents.create({ data: { id: event.id, type: event.type } });
-    await handleEvent(event, tx);
-  });
+  try {
+    await db.$transaction(async (tx) => {
+      await tx.webhookEvents.create({ data: { id: event.id, type: event.type } });
+      await handleEvent(event, tx);
+    });
+  } catch (err) {
+    // Un 500 haria que Stripe reintente sin fin: se registra, se encola el reproceso y se acusa recibo.
+    logger.error({ event: "stripe_webhook_failed", id: event.id, type: event.type });
+    await queue.enqueue("stripe.webhook.retry", { id: event.id });
+  }
 
   return new Response("OK", { status: 200 });
 }
@@ -114,6 +120,13 @@ export async function POST(req: Request) {
 - Un middleware que parsea JSON antes del handler invalida la firma. El endpoint de webhook necesita el cuerpo crudo.
 - Devolver `500` ante un error de lógica hace que Stripe reintente indefinidamente. Registrar el error, devolver `200` y encolar el reproceso.
 - Responder lento (>10s) provoca timeout y reintento. Procesar de forma asíncrona: acusar recibo primero, trabajar después.
+
+**Estado de Stripe (noviembre de 2026; verificar en `docs.stripe.com/upgrades` antes de fijar versiones):**
+- Versión de API vigente `2026-10-28.endive`. La `2026-09-30.endive` fue la de rupturas: desaparece `payment_method_types` en Checkout, PaymentIntents, SetupIntents y Elements (métodos de pago automáticos desde el Dashboard), formato unificado del anclaje del ciclo de facturación, Payment Request Button obsoleto.
+- `stripe-node` v23 exige Node 20+, `verifyHeader` aplica tolerancia de 300 s por defecto y `Stripe.ErrorType` pasa a `Stripe.errors`.
+- Eventos *thin* (sin payload: se consulta el objeto) GA para recursos v1 y destinos de eventos v2 (`event_payload: "thin"`). Es el formato recomendado para integraciones nuevas y obliga a handlers idempotentes y sin suposición de orden. El código anterior sigue valiendo para webhooks clásicos.
+- Facturación por uso solo mediante **Meters** (los usage records antiguos ya no existen); Stripe publica una guía propia de facturación por tokens de LLM.
+- Comercio agéntico: catálogo como feed, checkout propio vía Universal Commerce Protocol o gestionado por Stripe, y Shared Payment Tokens para que un agente pague en nombre del cliente. Instant Checkout de ChatGPT se retiró en marzo de 2026; el canal son las Apps en ChatGPT.
 
 ### R2 — Aprovisionamiento asíncrono
 
@@ -199,7 +212,7 @@ trialing → active → past_due → canceled
 
 ## 5. DUNNING — RECUPERAR EL CHURN INVOLUNTARIO
 
-Hasta el **20% de las cancelaciones no son decisiones del cliente**: son tarjetas caducadas, límites superados o tarjetas reemplazadas por robo o pérdida. Es el ingreso más barato de recuperar que existe.
+Una parte relevante de las cancelaciones **no son decisiones del cliente**: son tarjetas caducadas, límites superados o tarjetas reemplazadas por robo o pérdida. Es el ingreso más barato de recuperar que existe.
 
 - [ ] **Reintentos inteligentes** activados en la pasarela (reintenta en el día/hora estadísticamente mejor según el banco emisor).
 - [ ] **Emails pre-expiración** automáticos 14 días antes de que caduque la tarjeta registrada.
@@ -208,7 +221,7 @@ Hasta el **20% de las cancelaciones no son decisiones del cliente**: son tarjeta
 - [ ] **Actualizador automático de tarjetas** (card account updater) habilitado si la pasarela lo ofrece.
 - [ ] Enlace de "actualizar método de pago" que funciona sin necesidad de iniciar sesión (token de un solo uso).
 
-**Métrica a vigilar:** tasa de recuperación de dunning. Por debajo del 40% hay algo roto en la secuencia.
+**Métrica a vigilar:** tasa de recuperación de dunning. Si cae de forma sostenida, hay algo roto en la secuencia.
 
 ---
 

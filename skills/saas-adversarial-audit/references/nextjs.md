@@ -86,3 +86,16 @@ Para cada uno: ¿hay verificación de sesión **y de rol** en el layout del serv
 grep -rn "NEXT_PUBLIC_" .env* | grep -iE "secret|key|token|password|service"
 ```
 Cualquier variable `NEXT_PUBLIC_` con nombre de secreto ya está en el navegador de todos los visitantes. No se "arregla" renombrando: se rota.
+
+## N7 — Versión de Next.js con CVE conocidos (CRÍTICO)
+
+**Síntoma.** El `package.json` fija una versión anterior al último parche mensual de seguridad. Desde julio de 2026 Next.js publica parches de seguridad cada mes; 13.x y 14.x están sin soporte.
+
+**Comprobar.** `npm ls next react react-dom` y contrastar con `nextjs.org/blog`. Mínimos a noviembre de 2026: **16.4.5** o **15.5.29**. Lista no exhaustiva de lo que cierran:
+- CVE-2025-29927: bypass del middleware con la cabecera `x-middleware-subrequest` (eliminarla además en el proxy).
+- CVE-2025-55182 "React2Shell": RCE por deserialización en React Server Components (`react-server-dom-*` 19.0.1 / 19.1.2 / 19.2.1); en Next.js, CVE-2025-66478.
+- Mayo de 2026: bypass de autorización por prefetch de segmentos, bypass del proxy i18n y del middleware en rutas dinámicas, SSRF por WebSocket, envenenamiento de caché RSC, XSS por nonce CSP (15.5.18 / 16.2.6).
+- Octubre de 2026: dos RCE críticos (`use cache` en Cache Components; SVG vía sharp) y DoS en Server Actions (16.4.1 / 15.5.28).
+- Noviembre de 2026: **fuga de caché entre tenants en `use cache` y `unstable_cache`** (la clave de caché no incluía la identidad), fuga de cookies HttpOnly por `x-middleware-set-cookie` en rutas Edge (16.4.5 / 15.5.29).
+
+**Parche canónico.** Actualizar y, en `use cache`, incluir siempre `orgId` en los argumentos de la función cacheada: una caché compartida sin tenant en la clave es N1 con otro nombre. En Next.js 16 el middleware es `proxy.ts`; auditar que la autorización no dependa solo de él.

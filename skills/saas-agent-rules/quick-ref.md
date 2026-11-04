@@ -7,7 +7,7 @@
 
 ---
 
-## ⚖️ The 5 Immutable Laws
+## ⚖️ The 6 Immutable Laws
 
 | # | Law | Violation Signal |
 |---|-----|-----------------|
@@ -16,6 +16,7 @@
 | 3 | **Scope Freeze** — no ad-hoc additions after dev starts | "Just one more thing" added mid-sprint |
 | 4 | **Traceability in same PR** — matrix row updated in the PR that closes the module | PR merged without updating the traceability matrix |
 | 5 | **Finished = Immutable** — no informal refactoring | Module reopened without a ticket |
+| 6 | Independent reviewer | The session or model that wrote the code is the one approving it |
 
 ---
 
@@ -23,10 +24,10 @@
 
 | Task Type | Model Tier | Examples |
 |-----------|-----------|---------|
-| Triage & speed | Haiku / fast tier | Issue classification, quick search, free chat |
-| Daily development | Sonnet / mid tier | Standard logic, refactoring, MCP tools |
-| Deep architecture | Opus / high tier | DB design, complex audits, system coworking |
-| Autonomous / audit | Fable / max tier | End-to-end flows, adversarial Red Lane review |
+| Triage & speed | Haiku 5.5 | Issue classification, extraction, quick search, free chat |
+| Daily development | Sonnet 5.5 | Standard logic, refactoring, MCP tools |
+| Deep architecture | Opus 5.5 (default) | DB design, complex audits, system coworking, long agentic coding |
+| Autonomous / audit | Fable 5.1 | End-to-end flows, adversarial Red Lane review |
 
 ---
 
@@ -40,8 +41,7 @@ Apply to **every PR** before writing or reviewing:
 | 🟡 Yellow | Business logic, standard API integrations | CI + senior sign-off |
 | 🔴 Red | Auth, Stripe, PII, DB migrations, public APIs | **Human review mandatory — AI is draft-only** |
 
-**StampHog keywords** (auto-block merge if detected in diff):
-`auth · token · password · stripe · billing · pii · migration · rls · rbac`
+**StampHog keywords** (auto-block merge if detected in diff): canonical list in `saas-security-workflow` §7 (`auth · token · password · secret · stripe · billing · pii · migration · rls · rbac · webhook · oauth · jwt · session` and more). Claude never runs that merge; a named human does.
 
 ---
 

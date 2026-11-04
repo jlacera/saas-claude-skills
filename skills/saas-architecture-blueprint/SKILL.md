@@ -6,18 +6,18 @@ description: >
   isolation) and assigns Risk Lanes before a single line of code exists. Blocks
   code generation until the decisions are written down. Use before writing code,
   generating a plan, choosing a stack, designing a database schema or
-  scaffolding, and when the user says "nuevo proyecto", "disena la
+  scaffolding, and when the user says "disena la
   arquitectura", "que stack uso", "modelo de datos", "multi-tenant",
-  "workspaces", "scaffolding", "MVP", "estructura del repo", "CLAUDE.md",
+  "workspaces", "scaffolding", "MVP", "estructura del repo",
   "migracion", "N+1", "pooling", "Redis", "cola", "worker", "Docker",
   "serverless" or "refactor grande". Skill content is in Spanish.
 ---
 
 # SaaS Architecture Blueprint — Fase 0 (Decisiones Irreversibles)
 
-> **STATUS: MANDATORIO.** Ninguna línea de código de un SaaS nuevo se genera antes de completar el Bloque 1 (Las 12 Decisiones). El coste de revertir cualquiera de ellas después de tener usuarios reales es entre 10x y 100x el coste de decidirla bien ahora.
+> **STATUS: MANDATORIO.** Ninguna línea de código de un SaaS nuevo se genera antes de completar el Bloque 1 (Las 12 Decisiones). El coste de revertir cualquiera de ellas después de tener usuarios reales es órdenes de magnitud mayor que decidirla bien ahora.
 >
-> **Principio rector:** el 80% de la deuda técnica que mata un SaaS no viene de código malo, viene de decisiones estructurales tomadas por defecto, sin decidirlas.
+> **Principio rector:** la deuda técnica que mata un SaaS rara vez viene de código malo: viene de decisiones estructurales tomadas por defecto, sin decidirlas.
 
 ---
 
@@ -149,11 +149,11 @@ ENV NODE_ENV=production
 
 # Usuario no root: mitiga escalada de privilegios
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 worker
-USER worker
 
 COPY --chown=worker:nodejs package*.json ./
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 COPY --chown=worker:nodejs ./dist ./dist
+USER worker
 
 CMD ["node", "dist/workers/queue.worker.js"]
 ```
@@ -256,15 +256,15 @@ proyecto/
 └── .claude/
     ├── settings.json      <-- Permisos, modelo seleccionado, hooks de seguridad
     ├── reglas/            <-- Documentación modular por tema (code-style.md, testing.md, api-conventions.md)
-    ├── comandos/          <-- Slash commands para flujos repetibles
-    ├── habilidades/       <-- SKILL.md cargados bajo demanda
-    ├── agentes/           <-- Subagentes aislados (code-reviewer.md, security-auditor.md)
+    ├── commands/          <-- Slash commands para flujos repetibles
+    ├── skills/            <-- SKILL.md cargados bajo demanda
+    ├── agents/            <-- Subagentes aislados (code-reviewer.md, security-auditor.md)
     └── hooks/             <-- Scripts por evento (validate-bash.sh) que bloquean comandos destructivos
 ```
 
 **Gotchas de producción:**
 
-1. **`CLAUDE.md` ≠ manual.** Mantenerlo bajo 200 líneas como índice ejecutivo. Los manuales largos van a `.claude/habilidades/<nombre>/SKILL.md`, que solo se cargan cuando hacen falta. Saturar `CLAUDE.md` quema el context window en cada turno y degrada todas las respuestas posteriores.
+1. **`CLAUDE.md` ≠ manual.** Mantenerlo bajo 200 líneas como índice ejecutivo. Los manuales largos van a `.claude/skills/<nombre>/SKILL.md`, que solo se cargan cuando hacen falta. Saturar `CLAUDE.md` quema el context window en cada turno y degrada todas las respuestas posteriores. Si el equipo mezcla agentes, `AGENTS.md` es lo que leen Codex, Cursor, Copilot y Gemini CLI; Claude Code lo lee desde la 2.1.277 solo si no hay `CLAUDE.md`, así que un `CLAUDE.md` con `@AGENTS.md` dentro sirve a todos.
 2. **Hooks deterministas.** Un LLM puede intentar `rm -rf`, `sudo`, `git push --force` o `--no-verify`. Los hooks interceptan comandos peligrosos y ejecutan linter/formateador obligatoriamente tras cada edición. Es la única barrera que no depende del criterio del modelo.
 3. **`.mcp.json` en la raíz tiene precedencia** sobre la configuración global del usuario. Garantiza que todo el equipo apunte a las mismas herramientas y a la BD de staging correcta, no a producción por accidente.
 4. **`.env.example` versionado** con todos los nombres de clave (sin valores) desde el commit 0. `.env` real en `.gitignore` desde el commit 0, no desde el commit 40.
@@ -353,12 +353,14 @@ El techo de autonomía no lo fija la inteligencia del modelo, sino la naturaleza
 
 | Modelo | Cuándo | Nota |
 |---|---|---|
-| **Haiku** (rápido, barato) | Triaje, clasificación, chat sin archivos grandes, búsqueda web simple | No usar para razonamiento arquitectónico. |
-| **Sonnet** (diario) | Desarrollo simple, refactor rutinario, redacción operativa, uso intensivo de conectores MCP | Caballo de batalla. |
-| **Opus** (trabajo profundo) | Diseño de sistemas, auditorías, coworking arquitectónico | Establecer esfuerzo alto siempre. |
-| **Fable / clase Mythos** (máxima autonomía) | Flujos multi-etapa de principio a fin, investigación profunda, razonamiento adversarial | Regla 90/10: reservar para el 10% de tareas que realmente lo exigen. Cuando el modelo diario se atasca, se escala. |
+| **Haiku 5.5** (rápido, barato) | Triaje, clasificación, extracción, chat sin archivos grandes, búsqueda web simple | No usar para razonamiento arquitectónico. |
+| **Sonnet 5.5** (diario) | Desarrollo simple, refactor rutinario, redacción operativa, uso intensivo de conectores MCP | Caballo de batalla. |
+| **Opus 5.5** (trabajo profundo, por defecto) | Diseño de sistemas, auditorías, coworking arquitectónico, codificación agéntica larga | Su esfuerzo por defecto es `medium`: fijar `high` o `xhigh` en arquitectura y auditoría. |
+| **Fable 5.1** (máxima autonomía) | Flujos multi-etapa de principio a fin, investigación profunda, razonamiento adversarial | Regla 90/10: reservar para el 10% de tareas que realmente lo exigen. Cuando el modelo diario se atasca, se escala. |
 
 ### El patrón sándwich (arquitecto ↔ obrero)
+
+Es el sándwich de tres fases de `saas-agent-rules` §II con una fase previa de exploración barata. El auditor es siempre un modelo o sesión distinta del obrero.
 
 Nunca mezclar inspección de arquitectura e implementación en la misma ventana de contexto.
 
@@ -398,12 +400,12 @@ Ahorra presupuesto de tokens y, sobre todo, evita que el mismo contexto que escr
 
 ## 8. LOS 8 ERRORES CAROS (CHECKLIST DE PREVENCIÓN)
 
-1. Confundir token con palabra al presupuestar (1M tokens ≈ 750k palabras) → sobrecoste ~30% en facturas de API.
+1. Confundir token con palabra al presupuestar (1M tokens ≈ 750k palabras) → sobrecoste real en facturas de API.
 2. Subir `.env` al repositorio. Los bots escanean GitHub en segundos. Validar el histórico: `git log -p | grep -iE "sk-|api_key|secret"`. Si apareció, **rotar la clave**: borrar el commit no mitiga.
 3. Asumir que el context window es memoria permanente. Cada sesión arranca de cero; usar RAG o persistencia explícita.
 4. `git push` sin `git pull` previo.
 5. Confundir agente con chatbot al vender. Un chatbot responde; un agente ejecuta acciones en sistemas.
-6. Hacer fine-tuning cuando bastaba un prompt mejor o RAG. El 80% se resuelve con contexto.
+6. Hacer fine-tuning cuando bastaba un prompt mejor o RAG. Casi siempre se resuelve con contexto.
 7. Desplegar sin `npm run build` local previo. Que `dev` funcione no garantiza que producción compile.
 8. Hardcodear credenciales "temporalmente".
 

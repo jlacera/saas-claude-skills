@@ -1,6 +1,6 @@
 {
   "name": "saas-claude-skills",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Ten lazy-loaded skills for shipping production SaaS with AI coding agents: a lifecycle orchestrator with hard gates, Phase 0 architecture decisions, agent operating rules, dual OWASP security doctrine, an adversarial audit catalogue of 40+ AI-generated failure patterns with a deterministic scanner, a 16-point definition of done, Stripe billing safety and unit economics, a 13-layer deploy gate, EU compliance readiness, and agentic growth.",
   "author": {
     "name": "jlacera",

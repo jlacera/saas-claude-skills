@@ -30,22 +30,23 @@ hit CRITICAL "A2 Asignacion masiva (spread del body al ORM)" \
   "$(scan '(data|values):\s*(\.\.\.)?(req\.body|body|input)\b|Object\.assign\([^,]+,\s*(req\.)?body')"
 
 hit CRITICAL "I1 JWT decodificado sin verificar firma" \
-  "$(scan '(jwt\.decode|jwtDecode)\(')"
+  "$(scan '(jwt\.decode|jwtDecode)\(' | grep -v '\.py:')"  # PyJWT jwt.decode si verifica
 
 hit CRITICAL "S3 CORS abierto a cualquier origen" \
   "$(scan "Access-Control-Allow-Origin[\"' :]+\*|origin:\s*[\"']\*[\"']")"
 
 hit CRITICAL "G2 Endpoint de webhook sin verificacion de firma" \
   "$(for f in $( { grep -rl "${SRC[@]}" "${EXCL[@]}" -iE 'webhook' . 2>/dev/null; find . -path ./node_modules -prune -o -ipath '*webhook*' -name '*.ts' -print 2>/dev/null; } | sort -u); do
-       grep -qE 'constructEvent|verifyHeader|svix|createHmac|verifySignature|timingSafeEqual' "$f" || echo "$f: sin verificacion de firma";
+       grep -qE 'constructEvent|verifyHeader|construct_event|verify_header|svix|createHmac|verifySignature|timingSafeEqual|compare_digest' "$f" || echo "$f: sin verificacion de firma";
      done)"
 
 hit CRITICAL "G3 Cron handler sin CRON_SECRET" \
   "$(if [ -f vercel.json ] && grep -q '"crons"' vercel.json; then
-       grep -rL "${SRC[@]}" "${EXCL[@]}" -E 'CRON_SECRET' $(grep -rl "${SRC[@]}" "${EXCL[@]}" -E 'export (async )?function (GET|POST)' app/api src/app/api 2>/dev/null) 2>/dev/null | head -5
+       routes=$(grep -rl "${SRC[@]}" "${EXCL[@]}" -E 'export (async )?function (GET|POST)' app/api src/app/api 2>/dev/null)
+       [ -n "$routes" ] && grep -L -E 'CRON_SECRET' $routes 2>/dev/null | head -5
      fi)"
 
-hit CRITICAL "IA3 Conexion de IA a base de datos con rol privilegiado" \
+hit WARN "IA3 Rol privilegiado service_role presente: comprobar que no lo use la funcionalidad de IA ni el cliente" \
   "$(scan 'SERVICE_ROLE|service_role' )"
 
 hit WARN "N1 Consulta en Server Component sin select explicito" \

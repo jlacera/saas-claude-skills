@@ -59,3 +59,11 @@ SELECT relname, seq_scan, idx_scan FROM pg_stat_user_tables ORDER BY seq_scan DE
 **Síntoma.** Se añadió una columna para un cliente concreto y las consultas del resto se ralentizaron. El esquema es compartido y una personalización contaminó la tabla común.
 
 **Parche canónico.** Las personalizaciones por cliente viven en una columna `JSONB` de extensión o en un esquema por tenant, nunca como columnas nuevas en la tabla compartida. Si un cliente necesita un esquema propio, es una decisión de arquitectura documentada, no un `ALTER TABLE` de urgencia.
+
+## D6 — Supabase: lo que salta la RLS sin avisar (CRÍTICO)
+
+- Vistas `security_definer` (lint 0010): se ejecutan con los permisos del creador y devuelven filas de todos los tenants; crear con `security_invoker = on`.
+- Vistas materializadas: no tienen RLS; si están en el esquema expuesto al Data API, son una fuga completa.
+- `raw_user_meta_data` / `user_metadata` en políticas: lo edita el propio usuario; usar `app_metadata` o una tabla `memberships`.
+- Desde el 30-10-2026 las tablas nuevas en `public` no se exponen automáticamente al Data API: revisar qué esquema está expuesto y que ninguna tabla llegue sin RLS.
+- tRPC: CVE-2025-68130, prototype pollution en `formDataToObject` (10.45.3 / 11.8.0). Prisma: sin avisos propios en 2025-2026, pero Prisma 7 cambió el generador y la ruta de salida del cliente; comprobar que no acabe en el bundle público.

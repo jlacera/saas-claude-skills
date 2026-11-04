@@ -64,3 +64,8 @@ Para cada uno: ¿la consulta incluye `where: { id, tenantId: session.tenantId }`
 
 **Prompt auditor.**
 > Comprueba: (1) ¿Caducan las sesiones por inactividad? (2) ¿Hay rotación de refresh token, y se detecta la reutilización de un refresh token ya consumido como señal de robo? (3) ¿Puede un usuario ver y cerrar sus sesiones activas? (4) ¿El cambio de contraseña, el cambio de email y la expulsión de un miembro de la organización invalidan las sesiones existentes? (5) ¿Las cookies llevan `HttpOnly`, `Secure` y `SameSite`?
+
+## I7 — Versiones de Clerk y Supabase Auth con CVE (CRÍTICO)
+
+- Clerk: CVE-2026-41248, bypass de `createRouteMatcher` en `@clerk/nextjs`; mínimos 6.39.2 / 7.2.1. Las rutas protegidas no dependen solo del matcher: la autorización se repite en el handler.
+- Supabase Auth: CVE-2026-31813 en los proveedores Apple y Azure (gotrue 2.185.0); Realtime CVE-2026-54238 (aceptaba `exp` como cadena, 2.103.1) y CVE-2026-62247 (fuga de presencia, 2.111.2). En proyectos gestionados lo aplica Supabase; en self-hosted, actualizar.

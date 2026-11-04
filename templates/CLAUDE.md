@@ -1,7 +1,7 @@
 # CLAUDE.md — Agent Operating Standards
 # =======================================
 # Copy this file to the ROOT of your project.
-# It carries the rules that must be active in EVERY session. The six skills stay
+# It carries the rules that must be active in EVERY session. The ten skills stay
 # lazy-loaded behind it — install them first (see the repository README).
 # Delete any sections that don't apply to your project.
 
@@ -18,7 +18,7 @@ You apply mature engineering judgment on every task — not just generate code q
 ## 📚 Skill Library (Lazy-Load — read only when relevant)
 
 The following skills are available. Each one declares its own trigger conditions, so
-Claude loads it **on demand** when the task matches. Do NOT pull all six in at session
+Claude loads it **on demand** when the task matches. Do NOT pull all ten in at session
 start — that defeats the purpose. The table below is the map: if you are about to do
 something in the left column and the matching skill has not loaded, invoke it by name.
 
@@ -46,6 +46,7 @@ something in the left column and the matching skill has not loaded, invoke it by
 3. **Scope freeze.** Once development starts, new ideas go to the backlog — not into the current module.
 4. **Traceability in the same PR.** If a PR doesn't close its traceability row, it doesn't merge.
 5. **Finished is immutable.** No informal refactoring of completed modules without a ticket.
+6. **Independent reviewer.** The session or model that wrote the code never approves it: Red Lane review runs in a fresh session, a subagent or a different model, without the author's justification.
 
 ---
 
@@ -62,17 +63,15 @@ Before writing or reviewing code, classify the change:
 ## 🔴 Red Lane — StampHog Auto-Block
 
 If your changes touch any of these keywords, **do not auto-merge under any circumstance**.
-Escalate to a human senior engineer for line-by-line review:
+Stop and ask for a named human review, line by line:
 
-`
-auth · token · password · stripe · billing · pii · migration · rls · rbac
-`
+`auth · token · password · secret · stripe · billing · pii · migration · rls · rbac · webhook · oauth · jwt · session` (canonical list: `saas-security-workflow` §7)
 
 ---
 
 ## ✅ Definition of Done (always check before closing a task)
 
-A module is DONE only when ALL of the following are true:
+A module is DONE only when ALL 16 points of the `saas-definition-of-done` skill hold. The core ones:
 - [ ] Public index.ts contract exists
 - [ ] Mock/stub published for consumers
 - [ ] context.md written (purpose, decisions, alternatives discarded)
@@ -85,6 +84,8 @@ A module is DONE only when ALL of the following are true:
 - [ ] Cost instrumented (if module calls LLMs or paid APIs)
 - [ ] Deployed to staging behind a feature flag
 - [ ] Traceability row closed with PR link
+- [ ] `quick-scan.sh` from `saas-adversarial-audit` green, output pasted in the PR
+- [ ] Red Lane: independent-reviewer audit linked (fresh session, subagent or different model)
 
 > For module-specific additional requirements (UI, Red Lane, AI, Webhooks),
 > read: the `saas-definition-of-done` skill
@@ -108,7 +109,7 @@ A module is DONE only when ALL of the following are true:
 
 - Webhook events verified cryptographically via stripe.webhooks.constructEvent()
 - Access/credits provisioned **only** after verified webhook — never on redirect
-- Every charge includes a UUID Stripe-Idempotency-Key
+- Every charge carries a deterministic idempotency key (`charge:{orgId}:{invoiceId}`, header `Idempotency-Key`)
 - sk_test_ keys never reach production; sk_live_ keys never touch dev
 
 > Full billing rules: the `saas-billing-unit-economics` skill
@@ -130,10 +131,10 @@ Before submitting any code for review, run this internal checklist:
 
 | Task | Suggested model |
 |---|---|
-| Triage, quick search, free chat | Haiku |
-| Daily development, standard logic, MCP tools | Sonnet |
-| DB design, complex architecture, deep audits | Opus |
-| Full autonomous runs, Red Lane adversarial review | Fable |
+| Triage, quick search, free chat | Haiku 5.5 |
+| Daily development, standard logic, MCP tools | Sonnet 5.5 |
+| DB design, complex architecture, deep audits | Opus 5.5 (default) |
+| Full autonomous runs, Red Lane adversarial review | Fable 5.1 |
 
 > Full orchestration guide: the `saas-agent-rules` skill
 
@@ -145,7 +146,7 @@ Before submitting any code for review, run this internal checklist:
 > This is the persistent context Claude will use across sessions.
 
 ### Stack
-- **Frontend**: <!-- e.g. Next.js 15, React 19, TailwindCSS -->
+- **Frontend**: <!-- e.g. Next.js 16, React 19, Tailwind CSS 4 -->
 - **Backend**: <!-- e.g. Supabase, Hono, tRPC -->
 - **Auth**: <!-- e.g. Supabase Auth, Clerk -->
 - **Payments**: <!-- e.g. Stripe -->

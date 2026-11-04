@@ -4,7 +4,7 @@
 
 > **⚠️ Note:** The skills are written in **Spanish**, as they were originally created for a Spanish-speaking team. The documentation and the skill trigger descriptions are in English for maximum reach. Contributions and translations are welcome.
 
-**v2.0.0** — the lifecycle orchestrator, the Phase 0 blueprint and the adversarial audit catalogue join the collection. See [What changed in v2](#-what-changed-in-v20).
+**v2.1.0** (2026-11-04) — current models (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5), OWASP LLM Top 10 2026 and Agentic Top 10, MCP 2026-07-28 authorization, EU AI Act dates after the Digital Omnibus, Stripe `2026-10-28.endive`, the 2026 Next.js and supply-chain incidents, and a pass over triggers and contradictions. See [What changed in v2.1.0](#-what-changed-in-v210).
 
 ---
 
@@ -35,7 +35,7 @@ AI-generated code has a signature failure mode: it is syntactically impeccable, 
 | 7 | [`saas-billing-unit-economics`](./skills/saas-billing-unit-economics/) | 💳 Billing | Red Lane Gate, the 4 golden rules, idempotency, anti-chargeback, dunning, $0.10 cost circuit-breaker |
 | 8 | [`saas-production-readiness`](./skills/saas-production-readiness/) | ⚙️ Operations | 13-layer deploy gate, smoke test on the real domain, rollback under 60s, restore drill, incident runbooks |
 | 9 | [`saas-compliance-readiness`](./skills/saas-compliance-readiness/) | 📑 Compliance | Evidence-based readiness for GDPR, ISO 27001, ENS, NIS2 and SOC 2 — plus the build-vs-buy stack audit |
-| 10 | [`saas-growth-geo`](./skills/saas-growth-geo/) | 📈 Growth | Generative Engine Optimization, `/api/ai-spec.json`, "The Forge" B2B doctrine, Meta anti-ban rules |
+| 10 | [`saas-growth-geo`](./skills/saas-growth-geo/) | 📈 Growth | Generative Engine Optimization, the agent-readable surface (remote MCP, UCP, visible pricing), "The Forge" B2B doctrine, Meta anti-ban rules |
 
 ### The canonical chain
 
@@ -166,9 +166,18 @@ Provision only on a cryptographically verified webhook — never on `success_url
 Framework priority for the European market: GDPR → ISO 27001 → ENS for public sector → NIS2 by scope → SOC 2 only when a contract demands it. A 10-control readiness matrix answered with evidence, never intention; a reusable security-questionnaire master document; and the build-vs-buy audit that decides which subscriptions to replace with directed AI builds.
 
 ### 10. 📈 SaaS Growth & GEO
-Acquisition aimed at AI agents, not only human searchers: server-rendered JSON-LD for the "Agentic 6", the public `/api/ai-spec.json` endpoint, the "Forge" no-budget B2B outreach doctrine, and the Meta anti-ban rules for WhatsApp Cloud API and Instagram automation.
+Acquisition aimed at AI agents, not only human searchers: server-rendered JSON-LD that matches the visible page, the agent-readable surface (remote MCP server with OAuth, `/.well-known/ucp`, visible pricing), the "Forge" no-budget B2B outreach doctrine, and the Meta anti-ban rules for WhatsApp Cloud API and Instagram automation.
 
 ---
+
+## 🆕 What changed in v2.1.0
+
+- **Models:** every routing table names the current lineup (Haiku 5.5 triage, Sonnet 5.5 daily work, Opus 5.5 default and deep work, Fable 5.1 autonomous runs and Red Lane audit). The "Chain of Draft" instruction is gone: cost is governed with `effort`, not by telling the model to think less.
+- **Security:** OWASP LLM Top 10 2026 (new order, LLM01-LLM10), OWASP Agentic Top 10 (ASI01-ASI10), OWASP MCP Top 10, MCP spec 2026-07-28 authorization (OAuth 2.1, resource indicators, no token passthrough), the 2026 Next.js security releases including the cross-tenant `use cache` leak, Clerk and Supabase CVEs, Shai-Hulud/CHAINDROP lessons (signed provenance is not proof), Claude Security plugin and `/code-review` as the independent reviewer.
+- **Compliance:** EU AI Act timeline after Regulation (EU) 2026/1744 (Art. 50 since 2026-08-02, marking grace to 2026-12-02, high risk 2027/2028), GDPR unchanged, NIS2 not yet transposed in Spain, CRA reporting since 2026-09-11, Data Act switching rules, ISO 27001:2013 expired, SOC 2 2027 draft, eIDAS 2 wallets by 2026-12-24.
+- **Billing:** Stripe API `2026-10-28.endive`, stripe-node v23, thin events and event destinations, Meters as the only usage path, agentic commerce (UCP, Shared Payment Tokens). The non-existent `Stripe-Idempotency-Key` header is replaced by a deterministic `Idempotency-Key`.
+- **Growth:** `/api/ai-spec.json` replaced by what agents actually read (remote MCP server with OAuth, `/.well-known/ucp`, visible pricing with matching schema); `MerchantReturnPolicy` instead of the invalid `ReturnPolicy`; Google's May 2026 guidance on AI Overviews; WhatsApp Business rules (general-purpose chatbots banned since 2026-01-15, per-message pricing).
+- **Consistency:** six laws everywhere, 16 DoD points, 13 commandments, one StampHog list, one smoke test, monthly restore drill, `.claude/skills|commands|agents` folder names, scanner false positives fixed (PyJWT, cron routes, `service_role` downgraded to a review warning), skill descriptions no longer overlap on "audita", "deploy", "GDPR" or "SaaS".
 
 ## 🆕 What changed in v2.0.0
 

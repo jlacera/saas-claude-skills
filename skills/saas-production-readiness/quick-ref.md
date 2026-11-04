@@ -11,7 +11,7 @@
 13-layer audit with no REDs · restore drill done · rollback timed · alerts validated by causing a real staging error (arrival under 60s) · smoke test on the real domain including mobile · spend caps configured · environment variables verified per environment.
 
 ## 💨 Post-deploy smoke test (incognito window)
-Landing loads · signup and login work · the core action completes end to end · a paid path reaches the provider in test mode · errors reach the observability tool.
+Signup with a real email · the confirmation email arrives and its link works · login and the full core flow (create, edit, delete) · if there are charges, pay 1 EUR for real and refund it, confirming the webhook unlocks access · log out, log in, state persists · repeat on mobile if the product is used there.
 
 ## 🔥 Live incident
 Declare the incident and the owner · stop the bleeding (rollback or feature flag) before diagnosing · communicate before customers ask · postmortem without blame, with a dated action and an owner.

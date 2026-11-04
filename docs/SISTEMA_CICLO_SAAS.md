@@ -2,7 +2,7 @@
 id: KB-009
 title: "Sistema de Skills SaaS — Ciclo de Vida Completo"
 domain: "Meta / Orquestación de Skills / Ciclo SaaS"
-last_updated: "2026-08-03"
+last_updated: "2026-11-04"
 target_audience: "Jesús / Lupin / Builders"
 ---
 
@@ -25,7 +25,7 @@ target_audience: "Jesús / Lupin / Builders"
   FASE 0 ─────────── saas-architecture-blueprint      [KB Mód. 01]
      ↓ GATE 0: 12 decisiones cerradas por escrito
   FASE 1 ─────────── saas-security-workflow           [KB Mód. 02]  ← transversal, en cada diff
-     ↓ GATE 1: 3 escudos + 10 mandamientos + test cross-tenant
+     ↓ GATE 1: 3 escudos + 13 mandamientos + test cross-tenant
   FASE 2 ─────────── saas-billing-unit-economics      [KB Mód. 05]
      ↓ GATE 2: Red Lane firmado + margen positivo por tier
   FASE 3 ─────────── saas-production-readiness        [KB Mód. 03]

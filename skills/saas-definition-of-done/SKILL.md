@@ -21,7 +21,7 @@ Este documento rige la transición de estado de cualquier módulo en desarrollo.
 
 ### La Regla de Oro del Ritmo de Ingeniería:
 > **Se cierra un módulo o se abre el siguiente. Nunca las dos cosas a la vez.**
-> Como máximo, el equipo o agente puede mantener **un único módulo en estado "En Curso"** por carril de trabajo. Está estrictamente prohibido dejar tareas al 90% para abrir nuevos frentes; el 10% restante de un módulo abandonado cuesta un 40% más de esfuerzo reconstruir por pérdida de contexto.
+> Como máximo, el equipo o agente puede mantener **un único módulo en estado "En Curso"** por carril de trabajo. Está estrictamente prohibido dejar tareas al 90% para abrir nuevos frentes; el 10% restante de un módulo abandonado cuesta mucho más esfuerzo reconstruir por pérdida de contexto.
 
 ### Matriz de Estados de un Módulo:
 *   **PENDIENTE:** No se ha iniciado el desarrollo. Puede contener notas de arquitectura o de diseño preliminar.
@@ -55,7 +55,7 @@ Toda tarea o funcionalidad debe marcar conscientemente cada una de estas comprob
 12. [ ] **Coste Instrumentado:** Si el módulo realiza consultas a LLMs, procesamiento pesado o llamadas a APIs pagadas, calcula su coste de ejecución promedio. Si no se puede responder "cuánto cuesta invocar esto", no se considera terminado.
 13. [ ] **Despliegue en Staging Detrás de Feature Flag:** Código integrado en el entorno de pre-producción y oculto bajo una bandera de características para pruebas controladas en la nube.
 14. [ ] **Fila Cerrada en Matriz de Trazabilidad:** Actualización inmediata de la línea de trazabilidad con el enlace directo al Pull Request de GitHub, la fecha y los tests correspondientes.
-15. [ ] **Escaneo Adversarial en Verde:** `saas-adversarial-audit/scripts/quick-scan.sh` ejecutado desde la raíz del repositorio con cero patrones CRÍTICOS. La salida literal se adjunta en el PR. Un patrón crítico bloquea el merge; solo lo desbloquea una firma humana nombrada y fechada que acepte el riesgo por escrito.
+15. [ ] **Escaneo Adversarial en Verde:** `quick-scan.sh` de la skill `saas-adversarial-audit` (ruta `<directorio base de la skill>/scripts/quick-scan.sh`) ejecutado con el repositorio auditado como directorio de trabajo, con cero patrones CRÍTICOS. La salida literal se adjunta en el PR. Un patrón crítico bloquea el merge; solo lo desbloquea una firma humana nombrada y fechada que acepte el riesgo por escrito.
 16. [ ] **Auditoría del Revisor Independiente:** para módulos de Carril Rojo, los prompts auditores aplicables al stack (`saas-adversarial-audit/references/`) se han ejecutado en una sesión, subagente o modelo **distinto** del que escribió el código, y el informe de hallazgos está enlazado en el PR. Los patrones que no se pudieron verificar se listan explícitamente: un patrón no verificado nunca cuenta como superado.
 
 ---
@@ -84,4 +84,5 @@ Toda tarea o funcionalidad debe marcar conscientemente cada una de estas comprob
 ### Módulos con IA Generativa (Agentes / LLMs)
 *   [ ] **Aviso de IA Visible y Obligatorio:** Divulgación sintética explícita en cada interfaz o respuesta generada para el usuario.
 *   [ ] **Consent Gate Afirmativo:** Validación activa de que el usuario optó explícitamente por enviar sus datos personales al modelo.
+*   [ ] **Log de Generación Append-Only:** cada llamada al modelo registrada con `timestamp`, `model_name`, `input_hash`, `output_hash` y `user_session_id` (retención recomendada 3 años; mínimo legal 6 meses solo en alto riesgo).
 *   [ ] **Test de Inyección de Prompt Indirecta:** Simular la ingesta de reseñas o datos que contienen instrucciones maliciosas ocultas (ej. *"DROP TABLE..."*) y certificar que el agente ignora la orden y no rompe su flujo normal.

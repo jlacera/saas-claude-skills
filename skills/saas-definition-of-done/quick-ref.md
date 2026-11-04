@@ -33,7 +33,7 @@
 - [ ] Traceability row closed with PR link and test IDs
 
 ### Adversarial Gate
-- [ ] `saas-adversarial-audit/scripts/quick-scan.sh` green — zero CRITICAL patterns, output pasted in the PR
+- [ ] `quick-scan.sh` (shipped in the `saas-adversarial-audit` skill, run with the audited repo as cwd) green — zero CRITICAL patterns, output pasted in the PR
 - [ ] Red Lane only: stack auditor prompts run by an **independent reviewer** (fresh session, subagent, or different model), findings report linked
 
 ---

@@ -2,15 +2,17 @@
 name: saas-adversarial-audit
 description: >
   Adversarial audit catalogue for AI-generated code: 40+ failure patterns that
-  pass review and tests but ship exploitable gaps. Routes to stack-specific
-  auditor prompts for RAG multi-tenancy, Next.js RSC and middleware, tRPC and
-  GraphQL, Prisma and Postgres RLS, webhooks and cron, Clerk/JWT and OAuth,
-  email templates, supply chain and DNS, and autonomous agents. Ships a
-  deterministic grep scanner that flags 15 of them in seconds. Use when
-  reviewing or auditing code, before a PR merge, after an AI agent writes a
-  feature, when the user says "revisa el codigo", "audita", "security review",
-  "esto es seguro?", or names a stack (Next.js, tRPC, Prisma, Supabase, Convex,
-  Clerk, Resend, Vercel, GraphQL, RAG). Skill content is in Spanish.
+  pass review and tests but ship exploitable gaps, with stack-specific auditor
+  prompts (RAG multi-tenancy, Next.js RSC and middleware, tRPC and GraphQL,
+  Prisma and Postgres RLS, webhooks and cron, Clerk/JWT and OAuth, email,
+  supply chain and DNS, autonomous agents) and a deterministic grep scanner.
+  Use when the user pastes or points at a diff, a PR, a file or a snippet
+  and asks to review, check, audit or approve it ("revisa este diff", "revisa
+  este codigo", "revisa este PR", "antes de mergear", "esto es seguro?",
+  "audita", "security review", "code review"), after an AI agent writes a
+  feature, and before any merge. Load it even when the first bug is obvious:
+  the catalogue is what finds the other patterns next to it. Skill content is
+  in Spanish.
 ---
 # 🔎 AUDITORÍA ADVERSARIAL DEL CÓDIGO GENERADO POR IA
 

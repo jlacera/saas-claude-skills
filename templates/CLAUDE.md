@@ -1,7 +1,7 @@
 # CLAUDE.md — Agent Operating Standards
 # =======================================
 # Copy this file to the ROOT of your project.
-# It carries the rules that must be active in EVERY session. The ten skills stay
+# It carries the rules that must be active in EVERY session. The eleven skills stay
 # lazy-loaded behind it — install them first (see the repository README).
 # Delete any sections that don't apply to your project.
 
@@ -18,7 +18,7 @@ You apply mature engineering judgment on every task — not just generate code q
 ## 📚 Skill Library (Lazy-Load — read only when relevant)
 
 The following skills are available. Each one declares its own trigger conditions, so
-Claude loads it **on demand** when the task matches. Do NOT pull all ten in at session
+Claude loads it **on demand** when the task matches. Do NOT pull all eleven in at session
 start — that defeats the purpose. The table below is the map: if you are about to do
 something in the left column and the matching skill has not loaded, invoke it by name.
 
@@ -27,6 +27,7 @@ something in the left column and the matching skill has not loaded, invoke it by
 | When to load | Skill |
 |---|---|
 | Any task / session start | the `saas-agent-rules` skill |
+| Setting up or tuning CLAUDE.md, hooks, subagents, memory, evals; long autonomous runs; the agent loses context or burns tokens | the `saas-agent-harness` skill |
 | Before marking any task as "done" | the `saas-definition-of-done` skill |
 | When touching Auth, DB, APIs, storage, or AI inputs | the `saas-security-workflow` skill |
 | Before any deployment or infra change | the `saas-production-readiness` skill |

@@ -26,6 +26,7 @@ description: >
 
 ```
           TRANSVERSAL      →  saas-agent-rules          (cómo trabaja el agente, siempre)
+          TRANSVERSAL      →  saas-agent-harness        (cómo se construye y mide el andamiaje: CLAUDE.md, hooks, subagentes, evals)
                            →  saas-definition-of-done   (puerta de cada módulo)
 
 FASE 0 — ESTRUCTURA        →  saas-architecture-blueprint

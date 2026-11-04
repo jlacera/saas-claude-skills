@@ -262,7 +262,7 @@ proyecto/
     └── hooks/             <-- Scripts por evento (validate-bash.sh) que bloquean comandos destructivos
 ```
 
-**Gotchas de producción:**
+**Gotchas de producción:** (la operación del andamiaje, hooks, subagentes, memoria y evals, vive en `saas-agent-harness`)
 
 1. **`CLAUDE.md` ≠ manual.** Mantenerlo bajo 200 líneas como índice ejecutivo. Los manuales largos van a `.claude/skills/<nombre>/SKILL.md`, que solo se cargan cuando hacen falta. Saturar `CLAUDE.md` quema el context window en cada turno y degrada todas las respuestas posteriores. Si el equipo mezcla agentes, `AGENTS.md` es lo que leen Codex, Cursor, Copilot y Gemini CLI; Claude Code lo lee desde la 2.1.277 solo si no hay `CLAUDE.md`, así que un `CLAUDE.md` con `@AGENTS.md` dentro sirve a todos.
 2. **Hooks deterministas.** Un LLM puede intentar `rm -rf`, `sudo`, `git push --force` o `--no-verify`. Los hooks interceptan comandos peligrosos y ejecutan linter/formateador obligatoriamente tras cada edición. Es la única barrera que no depende del criterio del modelo.

@@ -4,7 +4,7 @@
 
 > **⚠️ Note:** The skills are written in **Spanish**, as they were originally created for a Spanish-speaking team. The documentation and the skill trigger descriptions are in English for maximum reach. Contributions and translations are welcome.
 
-**v2.1.0** (2026-11-04) — current models (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5), OWASP LLM Top 10 2026 and Agentic Top 10, MCP 2026-07-28 authorization, EU AI Act dates after the Digital Omnibus, Stripe `2026-10-28.endive`, the 2026 Next.js and supply-chain incidents, and a pass over triggers and contradictions. See [What changed in v2.1.0](#-what-changed-in-v210).
+**v2.2.0** (2026-11-04) — new `saas-agent-harness` skill (harness engineering: context, hooks, subagents, memory, long-running sessions, evals). **v2.1.0** — current models (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5), OWASP LLM Top 10 2026 and Agentic Top 10, MCP 2026-07-28 authorization, EU AI Act dates after the Digital Omnibus, Stripe `2026-10-28.endive`, the 2026 Next.js and supply-chain incidents, and a pass over triggers and contradictions. See [What changed in v2.1.0](#-what-changed-in-v210).
 
 ---
 
@@ -35,12 +35,13 @@ AI-generated code has a signature failure mode: it is syntactically impeccable, 
 | 7 | [`saas-billing-unit-economics`](./skills/saas-billing-unit-economics/) | 💳 Billing | Red Lane Gate, the 4 golden rules, idempotency, anti-chargeback, dunning, $0.10 cost circuit-breaker |
 | 8 | [`saas-production-readiness`](./skills/saas-production-readiness/) | ⚙️ Operations | 13-layer deploy gate, smoke test on the real domain, rollback under 60s, restore drill, incident runbooks |
 | 9 | [`saas-compliance-readiness`](./skills/saas-compliance-readiness/) | 📑 Compliance | Evidence-based readiness for GDPR, ISO 27001, ENS, NIS2 and SOC 2 — plus the build-vs-buy stack audit |
+| 11 | [`saas-agent-harness`](./skills/saas-agent-harness/) | 🧩 Harness engineering | CLAUDE.md as index, prose-to-control table, hooks and linters, long-running sessions with progress files, verification loops, subagent limits, harness evals, cost per task |
 | 10 | [`saas-growth-geo`](./skills/saas-growth-geo/) | 📈 Growth | Generative Engine Optimization, the agent-readable surface (remote MCP, UCP, visible pricing), "The Forge" B2B doctrine, Meta anti-ban rules |
 
 ### The canonical chain
 
 ```
-          TRANSVERSAL      ->  saas-agent-rules, saas-definition-of-done
+          TRANSVERSAL      ->  saas-agent-rules, saas-agent-harness, saas-definition-of-done
 
 FASE 0 — ESTRUCTURA        ->  saas-architecture-blueprint
    | [GATE 0: 12 decisions closed in writing]
@@ -169,6 +170,10 @@ Framework priority for the European market: GDPR → ISO 27001 → ENS for publi
 Acquisition aimed at AI agents, not only human searchers: server-rendered JSON-LD that matches the visible page, the agent-readable surface (remote MCP server with OAuth, `/.well-known/ucp`, visible pricing), the "Forge" no-budget B2B outreach doctrine, and the Meta anti-ban rules for WhatsApp Cloud API and Instagram automation.
 
 ---
+
+## 🆕 What changed in v2.2.0
+
+- **New skill `saas-agent-harness`:** harness engineering for coding agents. The seven subsystems (loop, tools, context, controls, orchestration, memory, measurement), CLAUDE.md/AGENTS.md as a table of contents, the prose-to-control table (hooks, architecture linters, gates), Anthropic's long-running-session pattern (`init.sh`, `claude-progress.txt`, `feature_list.json`), verification loops with an evaluator that never sees the author's justification, measured subagent limits (max 4 handoffs, reviewers for security not pass rate), structured memory, harness evals (20-50 frozen tasks, `claude plugin eval`) and cost per completed task. Sources: Anthropic (Nov 2025), OpenAI (Feb 2026), arXiv 2609.00006 and 2602.14690, Marmelab's September 2026 survey.
 
 ## 🆕 What changed in v2.1.0
 

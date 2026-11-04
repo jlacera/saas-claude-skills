@@ -8,7 +8,7 @@ target_audience: "Jesús / Lupin / Builders"
 
 # 🧩 MÓDULO 09: SISTEMA DE SKILLS SAAS (CICLO COMPLETO)
 
-> Cinco skills instaladas en la cuenta que convierten esta base de conocimiento en flujo ejecutable.
+> Once skills instaladas en la cuenta que convierten esta base de conocimiento en flujo ejecutable.
 > Punto de entrada único: **`saas-project-kickoff`**.
 
 ---

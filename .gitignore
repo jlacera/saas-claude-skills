@@ -39,3 +39,6 @@ yarn-error.log*
 *.tmp
 *.temp
 .cache/
+
+# claude plugin eval output (costs real runs; never committed)
+evals/results/

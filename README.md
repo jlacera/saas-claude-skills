@@ -171,6 +171,21 @@ Acquisition aimed at AI agents, not only human searchers: server-rendered JSON-L
 
 ---
 
+## 🧪 Evals
+
+`evals/` holds six `claude plugin eval` cases: two that must load `saas-agent-harness`, and four that check the triggers don't overlap (agent-rules answers model routing with the current lineup and without loading harness; a pasted diff loads `saas-adversarial-audit` and not `saas-security-workflow`; a go-live question loads `saas-production-readiness` and not security; a Stripe webhook question loads billing). Every grader is computed from the transcript, so a run costs only the agent's own tokens (about 2 USD for the suite on Sonnet 5.5). Results on 2026-11-04: 6/6 cases at 1.00.
+
+```bash
+claude plugin eval . --trust-plugin --ablation none --model claude-sonnet-5-5 --max-cost-usd 10 --no-publish
+```
+
+Results land in `evals/results/`, which is ignored by git.
+
+## 🆕 What changed in v2.2.1
+
+- `saas-adversarial-audit` description rewritten with the phrases people actually type ("revisa este diff", "antes de mergear") and an instruction to load it even when the first bug is obvious: the eval went from 33% to 100% trigger rate on a pasted diff.
+- Eval suite added (`evals/`), plugin icon added (`.claude-plugin/icon.png`).
+
 ## 🆕 What changed in v2.2.0
 
 - **New skill `saas-agent-harness`:** harness engineering for coding agents. The seven subsystems (loop, tools, context, controls, orchestration, memory, measurement), CLAUDE.md/AGENTS.md as a table of contents, the prose-to-control table (hooks, architecture linters, gates), Anthropic's long-running-session pattern (`init.sh`, `claude-progress.txt`, `feature_list.json`), verification loops with an evaluator that never sees the author's justification, measured subagent limits (max 4 handoffs, reviewers for security not pass rate), structured memory, harness evals (20-50 frozen tasks, `claude plugin eval`) and cost per completed task. Sources: Anthropic (Nov 2025), OpenAI (Feb 2026), arXiv 2609.00006 and 2602.14690, Marmelab's September 2026 survey.
